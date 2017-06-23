@@ -1,0 +1,33 @@
+<div class="aside" tabindex="-1" role="dialog">
+    <div class="panel panel-primary">
+        <div class="panel-heading" ng-show="title">
+            <button class="close" type="button" ng-click="vm.closeAddUser()">
+                <i class="fa fa-fw fa-times-circle"></i>
+            </button>
+            <h4 class="panel-title" ng-bind="title"></h4>
+        </div>
+
+        <div class="panel-body">
+            <input class="form-control" ng-model="vm.queryIdelUser" 
+                placeholder="按昵称、真实姓名或拼音首字母搜索用户">
+            <div class="alert alert-danger" ng-if="vm.serverError">
+                <i class="fa fa-fw fa-exclamation-triangle"></i>
+                ({{::vm.serverError.code}}) {{::vm.serverError.message}}
+            </div>
+        </div>
+
+        <ul class="list-group" vn-auto-height listen-on="aside.show">
+            <li class="list-group-item text-center" ng-hide="vm.idleUsersIsLoaded">
+                <i class="fa fa-fw fa-spinner fa-pulse"></i>
+            </li>
+            <li class="list-group-item" ng-if="vm.idleUsersIsLoaded"
+                ng-repeat="user in vm.idleUsers track by user.id">
+                <img width="18px" height="18px"
+                    ng-src="{{::user.userImgUrl | replace : '-min\.' : '.'}}">
+                <span ng-bind="::user.userName"></span>
+                <span ng-if="::user.trueName">（{{::user.trueName}}）</span>
+                <a class="pull-right" ng-click="vm.addUser(user)">添加</a>
+            </li>
+        </ul>
+    </div>
+</div>

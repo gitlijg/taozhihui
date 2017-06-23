@@ -1,0 +1,77 @@
+<vn-page-heading heading="数据统计" sub-heading="Data Statistics"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>
+                URL的响应时间统计日志
+            </h5>
+        </div>
+        <div class="panel-body">
+            <form class="search-group">
+                <div class="form-group grid-2">
+                    <input class="form-control" placeholder="开始日期" ng-model="vm.queryParams.createDate" bs-datepicker data-placement="bottom" data-max-date="today">
+                </div>
+                <div class="form-group grid-2">
+                    <input class="form-control" placeholder="结束日期" ng-model="vm.queryParams.endDate" bs-datepicker data-placement="bottom" data-max-date="today">
+                </div>
+                <div class="form-group grid-2">
+                    <input class="form-control" type="number" min="1" placeholder="用户ID" ng-model="vm.queryParams.userId">
+                </div>
+                <div class="form-group grid-3">
+                    <input class="form-control" type="text" placeholder="用户昵称" ng-model="vm.queryParams.userName">
+                </div>
+                <div class="form-group grid-3">
+                    <input class="form-control" type="text" placeholder="操作地址" ng-model="vm.queryParams.url">
+                </div>
+                <div class="form-group grid-3">
+                    <input class="form-control" type="number" min="1" placeholder="响应时间（毫秒）" ng-model="vm.queryParams.consumeTime">
+                </div>
+                <div class="form-group grid-1">
+                    <button class="btn btn-primary" type="button" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>搜索
+                    </button>
+                </div>
+            </form>
+        </div>
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+            <tr>
+                <th class="grid-6">访问URL</th>
+                <th class="grid-2">访问次数</th>
+                <th class="grid-2">总响应时间</th>
+                <th class="grid-2">最大响应时间</th>
+                <th class="grid-2">最小响应时间</th>
+                <th class="grid-2">平均响应时间</th>
+            </tr>
+            </thead>
+
+            <tbody class="text-muted">
+
+            <tr ng-if="vm.isEmpty">
+                <td class="alert alert-warning text-center">
+                    <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                </td>
+            </tr>
+            <tr ng-repeat="grouplog in vm.grouplog">
+                <td class="grid-6">
+                    {{grouplog.url}}
+                </td>
+                <td class="grid-2">
+                    {{grouplog.consumeTime.count}}
+                </td>
+                <td class="grid-2" ng-bind="grouplog.consumeTime.sum"></td>
+                <td class="grid-2" ng-bind="grouplog.consumeTime.max"></td>
+                <td class="grid-2" ng-bind="grouplog.consumeTime.min"></td>
+                <td class="grid-2" ng-bind="grouplog.consumeTime.avg"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--<div class="panel-footer text-center">-->
+            <!--<pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>-->
+            <!--<small class="pagination-meta text-muted">-->
+                <!--{{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项-->
+            <!--</small>-->
+        <!--</div>-->
+    </section>
+</div>

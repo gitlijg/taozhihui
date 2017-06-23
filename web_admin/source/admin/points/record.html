@@ -1,0 +1,111 @@
+<vn-page-heading heading="积分流水" sub-heading="Points Account Record"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>积分流水记录</h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <ui-select ng-model="vm.queryParams.receiver">
+                        <ui-select-match placeholder="按接收人搜索记录">
+                            {{$select.selected.aliasName}}
+                        </ui-select-match>
+                        <ui-select-choices ui-disable-choice="user.more" refresh="vm.getUsers($select.search)" repeat="user.id as user in vm.users">
+                            <strong>{{::user.aliasName}}</strong>
+                            <span class="pull-right">{{::user.trueName}}</span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="input-group">
+                    <ui-select ng-model="vm.queryParams.sender">
+                        <ui-select-match placeholder="按发送人搜索记录">
+                            {{$select.selected.aliasName}}
+                        </ui-select-match>
+                        <ui-select-choices refresh="vm.findUser($select.search)" repeat="user.id as user in vm.users">
+                            <strong>{{::user.aliasName}}</strong>
+                            <span class="pull-right">{{::user.trueName}}</span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="input-group">
+                    <ui-select ng-model="vm.queryParams.source">
+                        <ui-select-match placeholder="按积分来源搜索记录">
+                            {{$select.selected.systemName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="source.systemCode as source in vm.sourceList">
+                            <span>{{::source.systemName}}</span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="input-group">
+                    <ui-select ng-model="vm.queryParams.type">
+                        <ui-select-match placeholder="按积分类型搜索记录">
+                            {{$select.selected.integralDesc}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="point.integralType as point in vm.pointsList">
+                            <span>{{::point.integralDesc}}</span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="input-group btn-group">
+                    <button type="button" class="btn btn-primary" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>搜索
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="vm.reset()" ng-if="!admin.isReadOnly">
+                        <i class="fa fa-fw fa-times"></i>清除
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('senderName')">
+                        发放人<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'senderName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('integral')">
+                        变化值<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'integral'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('receiverName')">
+                        接收人<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'receiverName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('integralSource')">
+                        来源<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'integralSource'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('integralType')">
+                        类型<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'integralType'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('createDate')">
+                        日期<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-4">备注</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="record in vm.records | orderBy : vm.sorter.order : vm.sorter.reverse track by record.id">
+                    <td class="grid-2" ng-bind="::record.senderName"></td>
+                    <td class="grid-2" ng-bind="::record.integral" ng-class="{'text-success': record.integral > 0, 'text-danger': record.integral < 0}"></td>
+                    <td class="grid-2" ng-bind="::record.receiverName"></td>
+                    <td class="grid-2" ng-bind="vm.readableSource(record.integralSource)"></td>
+                    <td class="grid-2" ng-bind="::record.integralDesc"></td>
+                    <td class="grid-2" ng-bind="::record.createDate | readable : 'date'"></td>
+                    <td class="grid-4" ng-bind="::record.remark | readable"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

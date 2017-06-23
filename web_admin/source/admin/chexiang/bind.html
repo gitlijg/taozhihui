@@ -1,0 +1,36 @@
+<form class="form-condensed" novalidate vn-auto-height listen-on="aside.show" parent autocomplete="off">
+    <fieldset>
+        <legend class="text-muted">账号信息</legend>
+        <div class="form-group">
+            <label class="control-label" for="cx-account">本系统账号：</label>
+            <ui-select ng-model="vm.bindInfo.userInfo">
+                <ui-select-match placeholder="输入昵称搜索，候选结果右边显示真实姓名">
+                    {{$select.selected.trueName}}
+                </ui-select-match>
+                <ui-select-choices refresh="vm.searchUsers($select.search)" repeat="user in vm.candidates track by $index">
+                    <strong>{{user.trueName}}</strong>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" >车享家账号：</label>
+            <input class="form-control"  ng-model="vm.bindInfo.chexiangAccount" type="text" required>
+        </div>
+        <div class="form-group">
+            <label class="control-label" >车享家密码：</label>
+            <input class="form-control" ng-model="vm.bindInfo.chexiangPsw" type="text" required>
+        </div>
+
+    </fieldset>
+    <fieldset>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" ng-click="vm.bindAccount()" >
+                <i class="fa fa-fw fa-plus"></i>绑定
+            </button>
+            <button class="btn btn-link" type="button" ng-click="vm.aside.hide()">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+            <div class="pull-right text-danger" ng-show="!!vm.bind_error_msg" ng-bind="vm.bind_error_msg"></div>
+        </div>
+    </fieldset>
+</form>

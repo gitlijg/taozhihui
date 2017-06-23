@@ -1,0 +1,71 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.room.$dirty && vm.form.room.$valid,
+        'has-error': vm.form.room.$touched && vm.form.room.$invalid
+        }">
+        <label class="control-label" for="room">会议室名称：</label>
+        <input class="form-control" id="room" name="room" ng-model="vm.room.room" required>
+    </div>
+    <!--<div class="form-group" ng-class="{-->
+        <!--'has-success': vm.form.roomDesc.$dirty && vm.form.roomDesc.$valid,-->
+        <!--'has-error': vm.form.roomDesc.$touched && vm.form.roomDesc.$invalid-->
+        <!--}">-->
+        <!--<label class="control-label" for="roomDesc">会议室描述：</label>-->
+        <!--<input class="form-control" id="roomDesc" name="roomDesc" ng-model="vm.room.roomDesc" required>-->
+    <!--</div>-->
+    <div class="form-group">
+        <label class="control-label" >地点：</label>
+        <ui-select class="ui-select-inline" ng-model="vm.room.placeId">
+            <ui-select-match placeholder="选择地点">
+                {{$select.selected.place}}
+            </ui-select-match>
+            <ui-select-choices repeat="location.id as location in vm.locations">
+                <span>{{::location.place}}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="form-group">
+        <label class="control-label" >管理员：</label>
+        <ui-select ng-model="vm.room.managerId">
+            <ui-select-match placeholder="输入昵称搜索，候选结果右边显示真实姓名">
+                {{$select.selected.aliasName}}
+            </ui-select-match>
+            <ui-select-choices refresh="vm.searchUsers($select.search)" repeat="user.id as user in vm.candidates track by $index">
+                <strong>{{user.aliasName}}</strong><span class="pull-right">{{user.trueName}}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="form-group">
+        <label class="control-label">可参会人数</label>
+        <input class="form-control" ng-model="vm.room.peopleNumber">
+    </div>
+    <div class="form-group">
+        <label class="control-label">可使用设备</label>
+        <div class="checkbox-control">
+            <label class="checkbox-inline" ng-repeat="item in vm.deviceList">
+                <input type="checkbox" ng-model="item.has"/> {{item.value}}
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label">是否禁用</label>
+
+        <div class="radio-control">
+            <label class="radio-inline">
+                <input type="radio" name="room-disable" ng-model="vm.room.disabled" ng-value="1"/> 禁用
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="room-disable" ng-model="vm.room.disabled" ng-value="0"/> 启用
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="button" ng-click="asideModel.confirm(undefined, true)" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-plus"></i>添加
+        </button>
+        <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+            <i class="fa fa-fw fa-times"></i>取消
+        </button>
+    </div>
+</form>
+

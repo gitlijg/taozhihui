@@ -1,0 +1,63 @@
+<vn-page-heading heading="短信管理" sub-heading="SMS Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>短信／彩信记录</h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <input class="form-control" ng-model="vm.queryParams.content" placeholder="输入关键字搜索记录" ui-keydown="{'enter': 'vm.search()'}">
+                </div>
+                <div class="input-group btn-group">
+                    <button type="button" class="btn btn-primary" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('receiver')">
+                        接收方<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'receiver'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('sender')">
+                        发送方<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'sender'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-7 clickable" ng-click="vm.sorter.reorder('content')">
+                        内容<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'content'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('mark')">
+                        类型<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'mark'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('createDate')">
+                        日期<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="sms in vm.smsList | orderBy : vm.sorter.order : vm.sorter.reverse track by sms.id">
+                    <td class="grid-3" ng-bind="::sms.receiver"></td>
+                    <td class="grid-2" ng-bind="::sms.sender"></td>
+                    <td class="grid-7" ng-bind="::sms.content"></td>
+                    <td class="grid-2" ng-bind="::sms.mark | readable : 'smsMark'"></td>
+                    <td class="grid-2" ng-bind="::sms.createDate | readable : 'date'"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

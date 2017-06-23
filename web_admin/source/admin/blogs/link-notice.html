@@ -1,0 +1,47 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <fieldset>
+        <legend class="text-muted">公告信息</legend>
+        <div class="form-group" ng-class="{ 'has-error': vm.form.blogId.$touched && vm.form.blogId.$invalid }">
+            <label class="control-label" for="blogId">关联分享：</label>
+            <input type="number" class="form-control" id="blogId" name="blogId" ng-model="vm.notice.blogId" required>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': vm.form.noticeTitle.$touched && vm.form.noticeTitle.$invalid }">
+            <label class="control-label" for="noticeTitle">公告标题：</label>
+            <input class="form-control" id="noticeTitle" name="noticeTitle" ng-model="vm.notice.noticeTitle" required>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="posterStartdate">开始日期：</label>
+            <input class="form-control" id="posterStartdate" name="posterStartdate" ng-model="vm.notice.posterStartdate" bs-datepicker data-placement="bottom">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="posterEnddate">结束日期：</label>
+            <input class="form-control" id="posterEnddate" name="posterEnddate" ng-model="vm.notice.posterEnddate" bs-datepicker data-placement="bottom">
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend class="text-muted">公告附图</legend>
+        <div class="form-group">
+            <label class="control-label" for="image">上传附图：</label>
+            <div class="form-control-static drop-box text-center" id="image" accept="image/*" ngf-select ngf-drop ngf-accept="'image/*'" ngf-change="vm.upload($files)" ngf-drag-over-class="{accept:'drop-accept', reject:'drop-reject', delay:100}"><i class="fa fa-fw fa-cloud-upload"></i>点击选择或将文件拖拽至此即可上传</div>
+        </div>
+        <div class="form-group" ng-hide="vm.notice.imageUrl === undefined || vm.files">
+            <div class="upload-preview"><img ng-src="vm.notice.imageUrl" ng-hide="file.type.indexOf('image')"></div>
+        </div>
+        <div class="form-group" ng-show="vm.files">
+            <div class="upload-preview">
+                <div class="uploading" ng-show="vm.uploading"><span class="uploading-indicator"><i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%</span></div>
+                <img ng-repeat="file in vm.files" ng-show="file.type.indexOf('image') > -1" ngf-src="file" ngf-accept="'image/*'">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: vm.formMode}, true)" ng-disabled="vm.form.$invalid">
+                <i class="fa fa-fw fa-check"></i>创建
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

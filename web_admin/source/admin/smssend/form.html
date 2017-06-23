@@ -1,0 +1,18 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+
+    <div class="form-group">
+        <label class="control-label" for="contentText">短信内容：</label>
+        <textarea class="form-control" id="contentText" name="contentText" rows="10" ng-model="vm.sms.contentText"></textarea>
+    </div>
+
+    <fieldset class="text-center">
+        <div class="form-group" >
+            <button class="btn btn-primary" type="button" ng-disabled="vm.form.$invalid" ng-click="asideModel.confirm({type: 'save'})">
+                <i class="fa fa-fw fa-plus"></i>确定
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

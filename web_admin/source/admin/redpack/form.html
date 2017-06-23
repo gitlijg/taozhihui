@@ -1,0 +1,38 @@
+<vn-page-heading heading="红包管理" sub-heading="Redpack Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>发布红包</h5></div>
+
+        <form class="panel-body" name="vm.form">
+            <div class="form-group" ng-class="{'has-error': vm.form.titleName.$touched && vm.form.titleName.$invalid}">
+                <label class="control-label" for="titleName">标题：</label>
+                <ng-messages for="vm.form.titleName.$error" multiple ng-show="vm.form.titleName.$touched">
+                    <ng-message class="text-danger" when="required">必须填写</ng-message>
+                </ng-messages>
+                <input type="text" class="form-control" id="titleName" name="titleName" ng-model="vm.redpack.titleName" required>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="streamContent">正文：</label>
+                <ng-messages for="vm.form.streamContent.$error" multiple ng-show="vm.form.streamContent.$invalid">
+                    <ng-message class="text-danger" when="required">必须填写</ng-message>
+                </ng-messages>
+                <textarea class="form-control" id="streamContent" name="streamContent" ng-model="vm.redpack.streamContent" vn-rich-editor="vm.editorOptions" upload-files="vm.embedImages" upload-handler="vm.uploadEmbedImage($files)" required></textarea>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': vm.form.integralTotal.$touched && vm.form.integralTotal.$invalid}">
+                <label class="control-label" for="integralTotal">内含积分总额：</label>
+                <ng-messages for="vm.form.integralTotal.$error" multiple ng-show="vm.form.integralTotal.$touched">
+                    <ng-message class="text-danger" when="required">必须填写</ng-message>
+                    <ng-message class="text-warning" when="min">最小值为 1</ng-message>
+                </ng-messages>
+                <input type="number" class="form-control" id="integralTotal" name="integralTotal" ng-model="vm.redpack.redPacket.integralTotal" min="100" required>
+            </div>
+
+            <div class="form-group" ng-if="!admin.isReadOnly">
+                <button type="button" class="btn btn-primary" ng-click="vm.create()" ng-disabled="vm.form.$invalid">新建</button>
+            </div>
+        </form>
+    </div>
+</div>

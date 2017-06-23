@@ -1,0 +1,48 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+
+    <div class="form-group">
+        <label class="control-label" for="name">题目名：</label>
+        <input class="form-control" id="name" name="name" ng-model="vm.custom.name" required>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="position">该题顺序：</label>
+        <input class="form-control" id="position" name="position" ng-model="vm.custom.position" required>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="multiple">单选/多选：</label>
+        <select class="form-control" name="multiple" id="multiple" ng-model="vm.custom.multiple">
+            <option value="0">单选</option>
+            <option value="1">多选</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="association">是否关联问题：</label>
+        <select class="form-control" name="association" id="association" ng-model="vm.custom.association">
+            <option value="1">是</option>
+            <option value="0">否</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="defaultValue">答案项：</label>
+        <textarea rows="10" class="form-control" id="defaultValue" name="defaultValue" ng-model="vm.custom.defaultValue" required></textarea>
+    </div>
+
+    <fieldset class="text-center">
+        <div class="form-group" >
+            <button class="btn btn-primary" type="button" ng-disabled="vm.form.$invalid" ng-click="asideModel.confirm({type: 'save'})" ng-show="!vm.custom.id">
+                <i class="fa fa-fw fa-plus"></i>新建
+            </button>
+
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'update',item:vm.custom})" ng-show="vm.custom.id">
+                <i class="fa fa-fw fa-plus"></i>修改
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

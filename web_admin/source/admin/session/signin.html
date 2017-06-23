@@ -1,0 +1,32 @@
+<div class="signin-page">
+    <div class="signin">
+        <h2 class="text-center">{{::vm.meta.applicationName}}</h2>
+
+        <div ng-class="vm.flash.classNames" ng-bind="vm.flash.message" ng-if="vm.flash"></div>
+
+        <form name="signin" novalidate>
+            <div class="form-group">
+                <label class="sr-only" for="username">账号：</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                    <input class="form-control" id="username" name="username" placeholder="账号" autofocus required ng-model="vm.session.username" ui-keydown="{'enter': 'vm.signin()'}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="password">密码：</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="密码" required ng-model="vm.session.password" ui-keydown="{'enter': 'vm.signin()'}">
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-block" ng-click="vm.signin()">
+                    <i class="fa fa-fw fa-sign-in"></i>登录
+                </button>
+            </div>
+        </form>
+        <p class="text-center">
+            <small class="text-muted">{{::vm.meta.thisYear}} © {{::vm.meta.publisher}}</small>
+        </p>
+    </div>
+</div>

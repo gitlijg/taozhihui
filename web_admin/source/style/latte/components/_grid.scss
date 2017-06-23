@@ -1,0 +1,16 @@
+.container {
+    @include container;
+}
+
+@for $step from 1 through 16 {
+    .grid-#{$step} {
+        @include span($step of 16 split);
+    }
+
+    table .grid-#{$step} {
+        @include span($step of 16 0);
+        margin-left: 0;
+        margin-right: 0;
+        @include word-wrap;
+    }
+}

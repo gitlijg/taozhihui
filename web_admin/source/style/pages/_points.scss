@@ -1,0 +1,6 @@
+.filter-group {
+    @include span(4 of 12);
+    margin-bottom: 15px;
+
+    &:last-child { margin-bottom: 0 }
+}

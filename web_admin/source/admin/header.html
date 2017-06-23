@@ -1,0 +1,36 @@
+<div class="navbar navbar-default"></div>
+
+<div class="navbar-header">
+    <a class="navbar-brand" ui-sref="dashboard" ng-click="admin.setActiveMenu()" ng-bind="::admin.meta.applicationName"></a>
+</div>
+
+<nav class="nav-aside-wrapper">
+    <ul class="nav nav-aside-menu">
+        <li class="nav-aside-user">
+            <div class="avatar">
+                <img ng-src="{{::admin.api}}{{::admin.currentAdmin.userInfo.userImgUrl | replace : '-min\.' : '.'}}" width="100px" height="100px">
+                <span class="name" bs-dropdown="admin.adminMenu">
+                    {{::admin.currentAdmin.userInfo.userName}}
+                    <i class="fa fa-fw fa-caret-down"></i>
+                </span>
+            </div>
+        </li>
+        <li class="vertical-divider"></li>
+        <!-- TODO: 权限控制 -->
+        <li class="nav-aside-item" ng-class="{'active': admin.isActiveMenu($index)}" ng-show="menu.items.length > 0"
+            ng-click="admin.setActiveMenu($index)" ng-repeat="(menuIndex, menu) in admin.menus track by menu.id">
+            <a>
+                <i class="fa fa-fw" ng-class="::menu.icon"></i>
+                <span ng-bind="::menu.name"></span>
+                <i class="fa fa-fw fa-angle-right vertical-center" ng-class="{'fa-rotate-90': admin.isActiveMenu($index)}"></i>
+            </a>
+            <ul class="nav nav-aside-submenu" ng-class="{'in': admin.isActiveMenu(menuIndex)}">
+                <li class="nav-aside-item" ui-sref-active-eq="active" ng-repeat="item in menu.items track by item.id">
+                    <a ui-sref="{{::item.hyperlink}}" ui-sref-opts="{inherit: false}" ng-click="admin.setActiveMenu(menuIndex)">
+                        <span ng-bind="::item.name"></span><!--&nbsp;{{::item.type}}-{{::item.position}}-->
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

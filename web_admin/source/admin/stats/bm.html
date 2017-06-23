@@ -1,0 +1,22 @@
+<vn-page-heading heading="数据统计" sub-heading="Data Statistics"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>导出版主操作统计报表</h5></div>
+
+        <div class="panel-body">
+            <div class="form-group grid-7">
+                <input class="form-control" placeholder="开始日期" ng-model="vm.queryParams.start" bs-datepicker data-placement="bottom" data-max-date="today">
+            </div>
+            <div class="form-group grid-7">
+                <input class="form-control" placeholder="结束日期" ng-model="vm.queryParams.end" bs-datepicker data-placement="bottom" data-max-date="today">
+            </div>
+            <div class="form-group grid-2">
+                <button type="button" class="btn btn-primary" ng-click="vm.export()">
+                    <i class="fa fa-fw fa-download"></i>导出
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

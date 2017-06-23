@@ -1,0 +1,81 @@
+<vn-page-heading heading="分享管理" sub-heading="Blogs Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>
+                分享列表&nbsp;&nbsp;
+                <a href="" ng-click="vm.showBatchDel()" ng-if="!admin.isReadOnly">批量删除</a>
+            </h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <span class="input-group-addon" ng-hide="vm.queryParams.query"><i class="fa fa-fw fa-search"></i></span>
+                    <span class="input-group-addon clickable" ng-show="vm.queryParams.query" ng-click="vm.reset()"><i class="fa fa-fw fa-times-circle"></i></span>
+                    <input class="form-control" ng-model="vm.queryParams.query" ui-keydown="{'enter': 'vm.search()'}" placeholder="按标题模糊搜索分享">
+                </div>
+            </div>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item media" ng-repeat="blog in vm.blogs track by blog.id">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        <small class="top-order" ng-if="blog.orderId > 0">置顶顺序：{{blog.orderId}}</small>
+                        <small class="text-muted">#{{::blog.id}}</small>
+                        <span ng-class="{'is-deleted': blog.delFlag == 1}" ng-bind="::blog.titleName"></span>
+                    </h5>
+                    <p ng-bind="::blog.streamText | limitTo : 100"></p>
+                    <div class="media-meta text-muted">
+                        <small class="media-meta-item">
+                            作者：<a ui-sref="users({id: blog.createBy})">{{::blog.createName}}</a>
+                        </small>
+                        <small class="media-meta-item">
+                            发表：<time datetime="{{::blog.createDate}}" ng-bind="::blog.createDate | readable : 'date'"></time>
+                        </small>
+                        <small class="media-meta-item" ng-hide="blog.updateName == null">
+                            编辑：<a ui-sref="users({query: blog.updateName})">{{::blog.updateName}}</a>
+                        </small>
+                        <small class="media-meta-item" ng-hide="blog.updateDate == null">
+                            更新：<time datetime="{{::blog.updateDate}}" ng-bind="::blog.updateDate | readable : 'date'"></time>
+                        </small>
+                        <small class="media-meta-item">评论：{{::blog.commentCount}}</small>
+                        <small class="media-meta-item">点赞：{{::blog.praiseCount}}</small>
+                        <small class="media-meta-item">积分：{{::blog.blogIntegral | number : 0}}</small>
+                    </div>
+                    <div class="media-action">
+                        <small class="media-action-item">
+                            <a ng-click="vm.show(blog)">查看全文</a>
+                        </small>
+                        <small class="media-action-item" ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.addPoints(blog)">发放积分</a>
+                        </small>
+                        <small class="media-action-item" ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.addTag(blog)">添加标签</a>
+                        </small>
+                        <small class="media-action-item" ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.broadcastForm(blog)">信息广播</a>
+                        </small>
+                        <small class="media-action-item" ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.changeTop(blog)">调整置顶</a>
+                        </small>
+                        <small class="media-action-item" ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.linkNotice(blog)">新建公告</a>
+                        </small>
+                        <small class="media-action-item" ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.push(blog)">群发短信</a>
+                        </small>
+                        <small class="media-action-item" ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.delete(blog)">删除分享</a>
+                        </small>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

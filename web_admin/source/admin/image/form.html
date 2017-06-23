@@ -1,0 +1,22 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+
+    <div class="form-group">
+        <label class="control-label" for="folderName">相册名称：</label>
+        <input class="form-control" id="folderName" name="folderName" ng-model="vm.image.folderName">
+    </div>
+
+    <fieldset class="text-center">
+        <div class="form-group" >
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'save'})" ng-show="!vm.image.id">
+                <i class="fa fa-fw fa-plus"></i>新建
+            </button>
+
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'update',item:vm.image})" ng-show="vm.image.id">
+                <i class="fa fa-fw fa-plus"></i>修改
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

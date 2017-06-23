@@ -1,0 +1,108 @@
+<vn-page-heading heading="用户管理" sub-heading="User Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>用户列表<small class="text-muted" ng-show="vm.isLoaded">共{{::vm.users.length}}人</small></h5>
+
+            <div class="panel-search form-inline" ng-show="vm.isLoaded">
+                <div class="input-group">
+                    <span class="input-group-addon" ng-hide="vm.queryParams.name"><i class="fa fa-fw fa-search"></i></span>
+                    <span class="input-group-addon clickable" ng-show="vm.queryParams.name" ng-click="vm.reset('query')"><i class="fa fa-fw fa-times-circle"></i></span>
+                    <input class="form-control" ng-model="vm.queryParams.name" ui-keydown="{'enter': 'vm.search()'}" placeholder="模糊搜索">
+                    <div class="input-group-btn" >
+                        <button type="button" class="btn btn-primary" data-animation="am-flip-x" bs-dropdown="vm.loginTypeList" aria-haspopup="true" aria-expanded="false">
+                            {{vm.loginType}}
+                            <span class="caret"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group" ng-if="!admin.isReadOnly">
+                    <button type="button" class="btn btn-primary" ng-click="vm.register()">
+                        <i class="fa fa-fw fa-plus"></i>添加用户
+                    </button>
+                </div>
+                <div class="input-group btn-group">
+                    <a ng-href="{{::vm.exportPath}}" class="btn btn-default" ng-disabled="admin.isAdmin">
+                        <i class="fa fa-fw fa-download"></i>导出用户
+                    </a>
+                    <button type="button" class="btn btn-default" ng-disabled="admin.isAdmin" ngf-select ngf-change="vm.import($files)" ng-if="!admin.isReadOnly">
+                        <i class="fa fa-fw fa-upload"></i>导入用户
+                    </button>
+                    <button type="button" class="btn btn-default" ng-disabled="admin.isAdmin" bs-dropdown="vm.importDropdown" data-placement="bottom-right" ng-if="!admin.isReadOnly">
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" ng-if="vm.serverError">
+            <div ng-class="vm.serverError.classNames">
+                <span class="close clickable" ng-click="vm.serverError = null">
+                    <i class="fa fa-fw fa-times"></i>
+                </span>
+                <i class="fa fa-fw fa-exclamation-triangle"></i>
+                ({{::vm.serverError.code}}) <pre>{{::vm.serverError.message}}</pre>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-show="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-1 text-center">头像</th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('loginName')">
+                        账号 <i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'loginName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('trueName')">
+                        姓名<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'trueName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('aliasName')">
+                        昵称<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'aliasName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('title')">
+                        职位<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'title'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('phoneNumber')">
+                        电话<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'phoneNumber'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2">操作</th>
+                </tr>
+            </thead>
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="user in vm.users | orderBy : vm.sorter.order : vm.sorter.reverse track by user.id">
+                    <td class="grid-1 text-center">
+                        <img width="20px" height="20px" ng-src="{{::admin.api}}{{::user.imageUrl | replace : '-min\.' : '.'}}">
+                    </td>
+
+                    <td class="grid-3" ng-bind="::user.loginName | readable"></td>
+                    <td class="grid-3" ng-bind="::user.trueName | readable"></td>
+                    <td class="grid-3" ng-bind="::user.aliasName | readable"></td>
+                    <td class="grid-2" ng-bind="::user.title | readable"></td>
+                    <td class="grid-2" ng-bind="::user.phoneNumber | readable"></td>
+
+                    <td class="grid-2">
+                        <div ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.update(user)">编辑</a>
+                            <span class="text-muted">|</span>
+                            <a ng-click="vm.toggle(user)" ng-if="::user.isLock === 0">锁定</a>
+                            <a ng-click="vm.toggle(user)" ng-if="::user.isLock === 1">解锁</a>
+                        </div>
+
+                        <!--span class="text-muted">|</span>
+                        <a ng-click="vm.delete(user)" disabled>删除</a-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

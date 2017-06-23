@@ -1,0 +1,34 @@
+<vn-page-heading heading="置顶管理" ></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>
+                置顶列表
+            </h5>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item media" ng-repeat="item in vm.topList track by item.id">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        {{item.titleName}}
+                        <small ng-switch="item.type">
+                            [
+                            <span ng-switch-when="blog">分享</span>
+                            <span ng-switch-when="qa">问答</span>
+                            <span ng-switch-when="vote">投票</span>
+                            <span ng-switch-when="activity">活动</span>
+                            ]
+                        </small>
+                    </h4>
+                    <p ng-bind-html="::item.streamText | limitTo : 100"></p>
+                    <div class="media-action">
+                        <small class="media-action-item">
+                            <a ng-click="vm.cancelTop(item,$index)" ng-if="!admin.isReadOnly">取消置顶</a>
+                        </small>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </section>
+</div>

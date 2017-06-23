@@ -1,0 +1,32 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+
+    <div class="form-group">
+        <label class="control-label" for="tableName">问卷名称：</label>
+        <input class="form-control" id="tableName" name="tableName" ng-model="vm.custom.tableName" required>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="tableDesc">描述：</label>
+        <input class="form-control" id="tableDesc" name="tableDesc" ng-model="vm.custom.tableDesc" required>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="optionLimit">最大可选数：</label>
+        <input class="form-control" id="optionLimit" name="optionLimit" ng-model="vm.custom.optionLimit" required>
+    </div>
+
+    <fieldset class="text-center">
+        <div class="form-group" >
+            <button class="btn btn-primary" type="button" ng-disabled="vm.form.$invalid" ng-click="asideModel.confirm({type: 'save'})" ng-show="!vm.custom.id">
+                <i class="fa fa-fw fa-plus"></i>新建
+            </button>
+
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'update',item:vm.custom})" ng-show="vm.custom.id">
+                <i class="fa fa-fw fa-plus"></i>修改
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

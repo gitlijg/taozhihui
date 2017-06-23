@@ -1,0 +1,212 @@
+<!doctype html>
+<head>
+    <title>会议详情</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap/responsive.css" rel="stylesheet">
+
+    <script src="assets/js/jquery/jquery.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            font:   12 "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "微软雅黑", sans-serif;
+        }
+
+        body {
+            background: url(assets/images/abstract.png);
+            color:      black;
+        }
+
+        .co-name,
+        .must-be,
+        .fact-be {
+            margin:      35px 0;
+            color:       black;
+            font-size:   24px;
+            font-weight: 700;
+            text-shadow: 0 2px 0 rgba(255, 255, 255, .75), 0 1px 0 white, 0 0 1px lightgray;
+        }
+
+        .must-be {
+            margin-right: 30px;
+        }
+
+        .signing-book {
+            position:        relative;
+            overflow-y:      hidden;
+            margin:          0 auto;
+            height:          600px;
+            width:           940px;
+            background:      transparent url(assets/images/register.jpg) center 26% no-repeat;
+            background-size: 101% 106%;
+        }
+
+        .signing-list {
+            box-sizing: border-box;
+            position:   absolute;
+            top:        0;
+            margin:     0;
+            height:     100%;
+            padding:    24px;
+            list-style: none;
+        }
+
+        .signing-list li {
+            float:    left;
+            position: relative;
+            margin:   0 28px;
+            padding:  8px 0;
+            width:    165px;
+        }
+
+        .name {
+            margin-bottom: 5px;
+            color:         #333;
+            font-size:     21px;
+            font-weight:   800;
+        }
+
+        .department {
+            color:       #808080;
+            font-size:   15px;
+            font-weight: 400;
+        }
+
+        .department span {
+            display:       inline-block;
+            height:        24px;
+            width:         165px;
+            white-space:   nowrap;
+            overflow:      hidden;
+            text-overflow: ellipsis;
+        }
+
+        .check {
+            display:             block;
+            position:            absolute;
+            top:                 0;
+            right:               0;
+            height:              36px;
+            width:               36px;
+            background-size:     80%;
+            background-repeat:   no-repeat;
+            background-position: center center;
+        }
+
+        .check.green { background-image: url(assets/images/check-green.png); }
+        .check.red { background-image: url(assets/images/check-red.png); }
+        .check.blue { background-image: url(assets/images/check-blue.png); }
+        .check.yellow { background-image: url(assets/images/check-yellow.png); }
+        .check.purple { background-image: url(assets/images/check-purple.png); }
+    </style>
+    <script>
+        $(function () {
+            function fetchData() {
+                var meetingId = location.search.substr(1);
+
+                var apiPath = window.location.host.indexOf('tzh.anji.com') != -1 ? '/tzh' : '/sloth2';
+                $.get(apiPath + "/console/2.0/meeting/member/" + meetingId)
+                        .done(setInfo)
+                        .done(run);
+            }
+
+            function setInfo(data) {
+                var $info = $('.meeting-info');
+
+                $info.find('.must-be .num').text(data.allNum);
+                $info.find('.fact-be .num').text(data.participateNum);
+            }
+
+            function run(result) {
+                var people =
+                    /*
+                     * This piece of code can help you to strip
+                     * the people who are not on site, which means,
+                     * who has not sign already
+                     *
+                     * (result.allNum === result.participateNum)
+                     * ? result.data
+                     * : result.data.slice(0, result.participateNum),
+                     */
+                        result.data;
+
+                var stepAmount = 32;
+
+                var iterationTimes = (people.length % stepAmount === 0)
+                        ? (people.length / stepAmount)
+                        : Math.ceil(people.length / stepAmount);
+
+                var endFlag = 0;
+                var $container = $('ul.signing-list');
+                var departmentName;
+                var colors = [" green", " red", " blue", " yellow", " purple"];
+                var tick = 0;
+                var intervalId = setInterval(function () {
+                    var template = [];
+
+                    var currentCheck = colors[tick++];
+                    if (tick === 4) tick = 0;
+
+                    $.each(people.splice(0, stepAmount), function (idx, val) {
+                        if (val.departmentName === "") {
+                            departmentName = " ";
+                        } else {
+                            departmentName = val.departmentName;
+                        }
+
+                        var checkColor = '';
+                        if (val.participateName && val.participateName.trim()) {
+                            checkColor = currentCheck;
+                        }
+
+                        template.push(
+                                '<li class="person"><div class="name"><strong>'
+                                + val.userName
+                                + '</strong></div>'
+                                + '<div class="department"><span>'
+                                + departmentName
+                                + '</span></div>'
+                                + '<i class="check' + checkColor + '"></i></li>'
+                        )
+                    });
+
+                    $container.empty().append(template);
+
+                    if (++endFlag === iterationTimes) {
+                        window.clearInterval(intervalId);
+                        fetchData();
+                    }
+                }, 8000);
+            }
+
+            fetchData(); // Re-fetch the data in order new attendees arrives.
+        });
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="span12 meeting-info clearfix">
+            <div class="co-name pull-left">
+                &nbsp;
+            </div>
+            <div class="fact-be pull-right">
+                签到人数：<span class="num"></span>
+            </div>
+            <div class="must-be pull-right">
+                应到人数：<span class="num"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="signing-book clearfix">
+            <ul class="signing-list"></ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

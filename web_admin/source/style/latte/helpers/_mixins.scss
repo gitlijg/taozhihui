@@ -1,0 +1,85 @@
+///
+@mixin within($selectors) {
+    @each $selector in $selectors {
+        #{unquote($selector)} & { @content; }
+    }
+}
+
+// TODO: 现在的位置是右下，是否需要更加灵活？
+@mixin heading-link(
+    $top:    auto,
+    $right:  0,
+    $bottom: 0,
+    $left:   auto
+) {
+    position: absolute;
+    top:      $top;
+    right:    $right;
+    bottom:   $bottom;
+    left:     $left;
+
+    @content;
+}
+
+///
+@mixin decorate-heading(
+    $direction:         left,
+    $border-style:      0.25em solid darken(color(major, tint), 5%),
+    $reset-line-height: true
+) {
+    @if $reset-line-height { line-height: 1; }
+
+    padding-#{$direction}: 0.5em;
+    border-#{$direction}:  $border-style;
+}
+
+///
+@mixin hover-focus-active() {
+    &:hover,
+    &:focus,
+    &:active {
+        cursor: pointer;
+        @content;
+    }
+}
+
+///
+@mixin active-link($class-name: active) {
+    &.#{$class-name} { @content }
+}
+
+/// 绝对居中
+%_fluid-absolute-center-container {
+    text-align: center;
+
+    &::before {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+}
+@mixin absolute-center-box($width: auto, $height: auto) {
+    width:  $width;
+    height: $height;
+    @extend %_fluid-absolute-center;
+}
+
+///
+@mixin absolute-vertical-center($direction: 'right', $length: 0) {
+    position:      absolute;
+    top:           50%;
+    #{$direction}: $length;
+    transform:     translateY(-50%);
+    @content;
+}
+
+/// 词组换行
+%_word-wrap {
+    word-wrap: break-word;
+    white-space: normal;
+}
+@mixin word-wrap {
+    @extend %_word-wrap;
+    @content;
+}

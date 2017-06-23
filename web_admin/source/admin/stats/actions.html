@@ -1,0 +1,96 @@
+<vn-page-heading heading="数据统计" sub-heading="Data Statistics"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>
+                用户操作统计
+                <small class="text-muted">{{::vm.queryParams.start}} 至 {{::vm.queryParams.end}}</small>
+            </h5>
+
+            <div class="panel-search form-inline">
+                <div class="input-group">
+                    <button type="button" class="btn btn-primary" ng-click="vm.export()">
+                        <i class="fa fa-fw fa-plus"></i>导出数据
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="vm.delete(admin.isAdmin)" ng-if="!admin.isReadOnly">
+                        <i class="fa fa-fw fa-plus"></i>删除全部
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="search-group">
+                <div class="form-group grid-2">
+                    <input class="form-control" placeholder="开始日期" ng-model="vm.queryParams.start" bs-datepicker data-placement="bottom" data-max-date="today">
+                </div>
+                <div class="form-group grid-2">
+                    <input class="form-control" placeholder="结束日期" ng-model="vm.queryParams.end" bs-datepicker data-placement="bottom" data-max-date="today">
+                </div>
+                <div class="form-group grid-2">
+                    <input class="form-control" type="number" min="1" placeholder="用户ID" ng-model="vm.queryParams.id">
+                </div>
+                <div class="form-group grid-3">
+                    <input class="form-control" placeholder="用户昵称" ng-model="vm.queryParams.name">
+                </div>
+                <div class="form-group grid-3">
+                    <input class="form-control" placeholder="操作地址" ng-model="vm.queryParams.url">
+                </div>
+                <div class="form-group grid-3">
+                    <input class="form-control" type="number" min="1" placeholder="响应时间（毫秒）" ng-model="vm.queryParams.time">
+                </div>
+                <div class="form-group grid-1">
+                    <button class="btn btn-primary" type="button" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+                <tr>
+                    <th class="grid-2">操作用户</th>
+                    <th class="grid-2">操作描述</th>
+                    <th class="grid-2">操作类型</th>
+                    <th class="grid-2">关联数据</th>
+                    <th class="grid-3">操作时间</th>
+                    <th class="grid-2">响应时间</th>
+                    <th class="grid-3">异常信息</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="!vm.isLoaded">
+                    <td class="alert alert-info text-center">
+                        <i class="fa fa-fw fa-spinner fa-pulse"></i>数据很多，正在搬运中……
+                    </td>
+                </tr>
+
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="action in vm.actions track by $index">
+                    <td class="grid-2">
+                        {{::action.userName}}<i class="fa fa-fw fa-user text-info" bs-tooltip data-title="ID: {{::action.userId}}" data-placement="right"></i>
+                    </td>
+                    <td class="grid-2">
+                        {{::action.urlDesc}}<i class="fa fa-fw fa-link text-info" bs-tooltip data-title="URL: {{::action.url}}" data-placement="right"></i>
+                    </td>
+                    <td class="grid-2" ng-bind="::action.actionType | readable: 'crud'"></td>
+                    <td class="grid-2" ng-bind="::action.fkId"></td>
+                    <td class="grid-3" ng-bind="::action.createDate"></td>
+                    <td class="grid-2" ng-bind="::action.consumeTime | readable : 'ms'"></td>
+                    <td class="grid-3" ng-bind="::action.exceptionMsg | readable"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

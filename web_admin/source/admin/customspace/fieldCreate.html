@@ -1,0 +1,59 @@
+<vn-page-heading heading="问卷调查" sub-heading="Streams Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>问卷调查--问题</h5>
+
+            <div class="panel-search form-inline">
+                <div class="input-group" ng-if="!admin.isReadOnly">
+                    <button type="button" class="btn btn-primary" ng-click="vm.action({type: 'create', text: '创建问题'})">
+                        <i class="fa fa-fw fa-plus"></i>创建问题
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+            <tr>
+                <th class="grid-3 clickable">
+                    编号
+                </th>
+                <th class="grid-3 clickable">
+                    问题
+                </th>
+                <th class="grid-4 clickable">
+                    问卷描述
+                </th>
+                <th class="grid-2 clickable">
+                    单/多选
+                </th>
+                <th class="grid-2 clickable">
+                    关联问题
+                </th>
+                <th class="grid-2 clickable">
+                    操作
+                </th>
+            </tr>
+            </thead>
+
+            <tbody class="text-muted">
+            <tr ng-if="vm.isEmpty">
+                <td class="alert alert-warning text-center">
+                    <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                </td>
+            </tr>
+            <tr ng-repeat="stream in vm.list">
+                <td class="grid-3" ng-bind="::stream.id"></td>
+                <td class="grid-3" ng-bind="::stream.name | limitTo : 26" bs-tooltip data-title="{{::stream.name}}" data-placement="top"></td>
+                <td class="grid-4" ng-bind="::stream.position"></td>
+                <td class="grid-2" ng-bind="::stream.multiple=='0'?'单选':'多选'"></td>
+                <td class="grid-2" ng-bind="::stream.association=='0'?'否':'是'"></td>
+                <td class="grid-2" ng-click="vm.delete(stream)" ng-if="!admin.isReadOnly"><a href="">删除</a></td>
+                <td class="grid-16" ng-bind="::stream.defaultValue"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

@@ -1,0 +1,55 @@
+<vn-page-heading heading="合理化建议管理" sub-heading="Rational Proposal Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h5>选项设置</h5></div>
+
+        <div class="panel-body">
+            <div class="list-group grid-4">
+                <h5 class="list-group-item">选择下列类别进行设置：</h5>
+                <a class="list-group-item" ng-class="{'active': vm.currentGroup === $index}" ng-repeat="item in vm.optionList" ng-click="vm.selectOptionGroup($index)">{{::item.value}}</a>
+            </div>
+
+            <table class="table grid-12">
+                <thead>
+                    <tr>
+                        <th class="grid-2">
+                            排序<i class="fa fa-fw fa-question-circle text-info clickable" bs-tooltip data-title="排序用于决定菜单显示的顺序" data-placement="top"></i>
+                        </th>
+                        <th class="grid-2">键值</th>
+                        <th class="grid-8">描述</th>
+                        <th class="grid-4">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="option in vm.currentOptions track by $index">
+                        <td class="grid-2">
+                            <input class="form-control" type="number" ng-model="option.optionOrder">
+                        </td>
+                        <td class="grid-2">
+                            <p class="form-control-static" ng-bind="option.optionKey"></p>
+                        </td>
+                        <td class="grid-8">
+                            <input class="form-control" type="text" ng-model="option.optionValue">
+                        </td>
+                        <td class="grid-4 btn-group btn-group-justified">
+                            <div class="btn-group" ng-if="!admin.isReadOnly">
+                                <button class="btn btn-primary" type="button" ng-click="vm.saveOption(option)">保存</button>
+                            </div>
+                            <div class="btn-group" ng-if="!admin.isReadOnly">
+                                <button class="btn btn-link" type="button" ng-click="vm.deleteOption(option, $index)">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-if="!admin.isReadOnly">
+                        <td class="text-center">
+                            <button class="btn btn-link" type="button" ng-click="vm.addOption()">
+                                <i class="fa fa-fw fa-plus"></i>增加选项
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

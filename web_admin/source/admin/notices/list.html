@@ -1,0 +1,41 @@
+<vn-page-heading heading="公告管理" sub-heading="Notices Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>公告列表</h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <span class="input-group-addon" ng-hide="vm.queryParams.query"><i class="fa fa-fw fa-search"></i></span>
+                    <span class="input-group-addon clickable" ng-show="vm.queryParams.query" ng-click="vm.reset()"><i class="fa fa-fw fa-times-circle"></span>
+                    <input type="text" class="form-control" ng-model="vm.queryParams.query" ui-keydown="{'enter': 'vm.search()'}" placeholder="按公告标题搜索公告">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" bs-dropdown="vm.typeChoices" data-placement="bottom-left">{{vm.type}}<i class="fa fa-fw fa-caret-down"></i></button>
+                    </div>
+                </div>
+                <div class="input-group" ng-if="!admin.isReadOnly">
+                    <button type="button" class="btn btn-primary" ng-click="vm.update({text: '创建公告', type: 'create'})">
+                        <i class="fa fa-fw fa-plus"></i>创建公告
+                    </button>
+                </div>
+                <div class="form-group"><button type="button" class="btn btn-primary" ng-click="vm.search()">搜索</button></div>
+            </div>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item media" ng-repeat="notice in vm.notices  track by notice.id">
+                <div class="media-body">
+                    <h5 class="media-heading"><small class="text-muted">#{{::notice.id}}</small>{{::notice.noticeTitle}}</h5>
+                    <p><img ng-src="{{::admin.api}}{{::notice.imageUri}}"></p>
+                    <div class="media-action" ng-if="!admin.isReadOnly">
+                        <small class="media-action-item"><a ng-click="vm.update({text: '编辑公告', type: 'update', data: notice})">编辑公告</a></small>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">{{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项</small>
+        </div>
+    </section>
+</div>

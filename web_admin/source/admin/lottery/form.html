@@ -1,0 +1,115 @@
+<vn-page-heading heading="抽奖管理" sub-heading="Lottery Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h5>发布抽奖</h5></div>
+
+        <form class="panel-body" name="vm.form">
+            <fieldset class="grid-8">
+                <div class="form-group grid-16" ng-class="{'has-error': vm.form.titleName.$touched && vm.form.titleName.$invalid}">
+                    <label class="control-label" for="titleName">标题：</label>
+                    <ng-messages for="vm.form.titleName.$error" multiple ng-show="vm.form.titleName.$touched">
+                        <ng-message class="text-danger" when="required">必须填写</ng-message>
+                    </ng-messages>
+                    <input type="text" class="form-control" id="titleName" name="titleName" ng-model="vm.lottery.titleName" required>
+                </div>
+
+                <div class="form-group grid-8" ng-class="{'has-error': vm.form.lotteryIntegral.$touched && vm.form.lotteryIntegral.$invalid}">
+                    <label class="control-label" for="lotteryIntegral">消耗积分：</label>
+                    <ng-messages for="vm.form.lotteryIntegral.$error" multiple ng-show="vm.form.lotteryIntegral.$touched">
+                        <ng-message class="text-danger" when="required">必须填写</ng-message>
+                        <ng-message class="text-warning" when="number">请填写数字</ng-message>
+                        <ng-message class="text-warning" when="min">不能小于零</ng-message>
+                    </ng-messages>
+                    <input type="number" class="form-control" id="lotteryIntegral" name="lotteryIntegral" ng-model="vm.lottery.lottery.integral" min="0" required>
+                </div>
+
+                <div class="form-group grid-8" ng-class="{'has-error': vm.form.lotteryEndDate.$touched && vm.form.lotteryEndDate.$invalid}">
+                    <label class="control-label" for="lotteryEndDate">截止日期：</label>
+                    <ng-messages for="vm.form.lotteryEndDate.$error" multiple ng-show="vm.form.lotteryEndDate.$touched">
+                        <ng-message class="text-danger" when="required">必须填写</ng-message>
+                    </ng-messages>
+                    <input class="form-control" id="lotteryEndDate" name="lotteryEndDate" ng-model="vm.lottery.lottery.endDate" bs-datepicker data-placement="bottom" data-min-date="today" required>
+                </div>
+
+                <div class="form-group grid-16">
+                    <label class="control-label" for="streamContent">正文：</label>
+                    <ng-messages for="vm.form.streamContent.$error" multiple ng-show="vm.form.streamContent.$invalid">
+                        <ng-message class="text-danger" when="required">必须填写</ng-message>
+                    </ng-messages>
+                    <textarea class="form-control" id="streamContent" name="streamContent" ng-model="vm.lottery.streamContent" vn-rich-editor="vm.editorOptions" upload-files="vm.embedImages" upload-handler="vm.uploadEmbedImage($files)" required></textarea>
+                </div>
+
+                <div class="form-group grid-16" ng-if="!admin.isReadOnly">
+                    <label class="control-label" for="lotteryImageId">背景图片：</label>
+                    <span class="text-muted">抽奖默认的背景图可以在此替换</span>
+                    <div class="btn btn-block btn-default" id="lotteryImageId" accept="image/*" ngf-accept="'image/*'" ngf-select ngf-change="vm.uploadBackgroundImage($files)" ng-model="vm.backgroundImage" ngf-drop ngf-drag-over-class="{accept: 'drop-accept', reject: 'drop-reject', delay: 100}">
+                        <span class="text-muted"><i class="fa fa-fw fa-cloud-upload"></i>点击选择或将文件拖拽至此</span>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="grid-8">
+                <legend>
+                    奖项设置<small class="text-muted">（最多 {{vm.maxOptions}} 项）</small>
+                    <a class="add-option pull-right" ng-if="!admin.isReadOnly" ng-click="vm.addOption()" ng-disabled="vm.lottery.lotteryOptionList.length === vm.maxOptions">
+                        <i class="fa fa-fw fa-plus"></i>增加奖项
+                    </a>
+                </legend>
+
+                <div class="panel-group" ng-model="vm.activeOption" ng-init="vm.maxOptions = 5" bs-collapse>
+                    <div class="panel panel-primary" ng-repeat="option in vm.lottery.lottery.lotteryOptionList track by $index">
+                        <div class="panel-heading">
+                            <h4 class="panel-title clickable" bs-collapse-toggle>
+                                <code><small>{{$index + 1}}</small></code> {{option.content}}
+                                <button type="button" class="close pull-right" ng-click="vm.removeOption($index)" ng-if="$index > 0" bs-tooltip title="删除奖项" placement="left"><small class=" fa fa-fw fa-times"></small></button>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse" bs-collapse-target>
+                            <div class="panel-body">
+                                <div class="form-group grid-16" ng-class="{'has-error': vm.form.optionContent{{$index}}.$touched && vm.form.optionContent{{$index}}.$invalid}">
+                                    <label class="control-label" for="optionContent{{$index}}">奖项描述：</label>
+                                    <input class="form-control" id="optionContent{{$index}}" name="optionContent{{$index}}" placeholder="请填写奖项的描述" ng-model="option.content" required>
+                                </div>
+
+                                <div class="form-group grid-4" ng-class="{'has-error': vm.form.optionOrderId{{$index}}.$touched && vm.form.optionOrderId{{$index}}.$invalid}">
+                                    <label class="control-label" for="optionOrderId{{$index}}">奖项顺序：</label>
+                                    <input type="number" class="form-control" id="optionOrderId{{$index}}" name="optionOrderId{{$index}}" ng-model="option.orderId" min="1" max="{{vm.maxOptions}}" required>
+                                </div>
+
+                                <div class="form-group grid-4" ng-class="{'has-error': vm.form.optionProbability{{$index}}.$touched && vm.form.optionProbability{{$index}}.$invalid}">
+                                    <label class="control-label" for="optionProbability{{$index}}">中奖概率：</label>
+                                    <input type="number" class="form-control" id="optionProbability{{$index}}" name="optionProbability{{$index}}" ng-model="option.probability" min="1" max="100" ng-minlength="1" ng-maxlength="4" required>
+                                </div>
+
+                                <div class="form-group grid-4" ng-class="{'has-error': vm.form.optionNumberPeople{{$index}}.$touched && vm.form.optionNumberPeople{{$index}}.$invalid}">
+                                    <label class="control-label" for="optionNumberPeople{{$index}}">奖品数量：</label>
+                                    <input type="number" class="form-control" id="optionNumberPeople{{$index}}" name="optionNumberPeople{{$index}}" ng-model="option.numberPeople" min="1" required>
+                                </div>
+
+                                <div class="form-group grid-4" ng-class="{'has-error': vm.form.optionIntegralPrize{{$index}}.$touched && vm.form.optionIntegralPrize{{$index}}.$invalid}">
+                                    <label class="control-label" for="optionIntegralPrize{{$index}}">积分抽积分：</label>
+                                    <input type="number" class="form-control" id="optionIntegralPrize{{$index}}" name="optionIntegralPrize{{$index}}" ng-model="option.integralPrize" min="1" required>
+                                </div>
+
+                                <div class="form-group grid-4" ng-if="!admin.isReadOnly">
+                                    <label class="control-label" for="optionsImageUrl{{$index}}">奖品配图：</label>
+                                    <div class="btn btn-block btn-default" id="optionsImageUrl{{$index}}" accept="image/*" ngf-accept="'image/*'" ngf-select ngf-change="vm.uploadOptionImage($files, $index)" ng-model="vm.optionImages" ngf-drop ngf-drag-over-class="{accept:'drop-accept', reject:'drop-reject', delay:100}" bs-tooltip data-title="点击选择或将文件拖拽至此" data-placement="left">
+                                        <span class="text-muted"><i class="fa fa-fw fa-cloud-upload"></i>上传图片</span>
+                                    </div>
+                                </div>
+                                <div class="form-group grid-12" ng-show="option.imageUrl">
+                                    <img ng-src="{{api}}/downloadFile/{{option.imageUrl}}" style="height: 80px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="grid-16">
+                <div class="form-group grid-8">
+                    <button ng-if="!admin.isReadOnly" type="button" class="btn btn-primary" ng-click="vm.create()" ng-disabled="vm.form.$invalid">创建</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

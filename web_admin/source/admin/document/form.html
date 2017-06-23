@@ -1,0 +1,23 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+
+    <div class="form-group">
+        <label class="control-label" for="folderName">文档名称：</label>
+        <input class="form-control" id="folderName" name="folderName" ng-model="vm.document.folderName">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="remark">文档备注：</label>
+        <input class="form-control" id="remark" name="remark" ng-model="vm.document.remark">
+    </div>
+
+    <fieldset class="text-center">
+        <div class="form-group" >
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({item:vm.document})">
+                <i class="fa fa-fw fa-plus"></i>修改
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

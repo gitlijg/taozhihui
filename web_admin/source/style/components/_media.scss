@@ -1,0 +1,33 @@
+.list-group-item.media {
+    margin-top: 0;
+}
+
+.media-heading {
+    .top-order {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+    }
+
+    .is-deleted {
+        text-decoration: line-through;
+    }
+
+    .label.pull-right {
+        margin-top: 5px;
+    }
+}
+
+.media-meta-item + .media-meta-item {
+    margin-left: 1em;
+}
+
+.media-action {
+    position: absolute;
+    bottom: 0.5em;
+    right: 0.5em;
+}
+
+.media-action-item + .media-action-item {
+    margin-left: 0.5em;
+}

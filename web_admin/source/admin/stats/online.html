@@ -1,0 +1,40 @@
+<vn-page-heading heading="数据统计" sub-heading="Data Statistics"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>
+                在线用户 <span ng-if="vm.over">{{vm.onlineList.length}} 人</span>
+            </h5>
+        </div>
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+                <tr>
+                    <th class="grid-3">登陆账号</th>
+                    <th class="grid-2">用户昵称</th>
+                    <th class="grid-4">登陆时间</th>
+                    <th class="grid-3">客户端IP</th>
+                    <th class="grid-4">所属公司</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.onlineList.length <= 0">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="online in vm.onlineList track by $index">
+                    <td class="grid-3">
+                        {{::online.loginName}}
+                    </td>
+                    <td class="grid-2" ng-bind="::online.nickName"></td>
+                    <td class="grid-4" ng-bind="::online.loginTime"></td>
+                    <td class="grid-3" ng-bind="::online.host"></td>
+                    <td class="grid-4" ng-bind="::online.orgName"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+

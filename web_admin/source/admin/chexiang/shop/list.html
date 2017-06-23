@@ -1,0 +1,79 @@
+<vn-page-heading heading="车享家门店列表" ></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>门店列表</h5>
+
+            <div class="panel-search form-inline" ng-show="vm.isLoaded">
+                <div class="input-group ">
+                    <input class="form-control" ng-model="vm.queryParams.storeName" ui-keydown="{'enter': 'vm.search()'}" placeholder="门店名称">
+                </div>
+                <div class="input-group">
+                    <input class="form-control" ng-model="vm.queryParams.storeTel" ui-keydown="{'enter': 'vm.search()'}" placeholder="门店电话">
+                </div>
+                <div class="input-group">
+                    <input class="form-control" ng-model="vm.queryParams.email" ui-keydown="{'enter': 'vm.search()'}" placeholder="门店邮箱">
+                </div>
+                <div class="input-group btn-group">
+                    <button class="btn btn-primary" type="button" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>
+                        搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-show="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-1 ">
+                        编码
+                    </th>
+                    <th class="grid-2 ">
+                        名称
+                    </th>
+                    <th class="grid-3 ">
+                        电话
+                    </th>
+                    <th class="grid-4 ">
+                        邮箱
+                    </th>
+                    <th class="grid-2 ">
+                        所在省
+                    </th>
+                    <th class="grid-2 ">
+                        所在市
+                    </th>
+                    <th class="grid-2 ">
+                        所在区县
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="item in vm.list track by $index">
+                    <td class="grid-1" ng-bind="::item.storeNo"></td>
+                    <td class="grid-2" >
+                        <a href="" ng-click="vm.detail(item.id)" ng-bind="::item.storeName"></a>
+                    </td>
+                    <td class="grid-3" ng-bind="::item.storeTel"></td>
+                    <td class="grid-4" ng-bind="::item.email"></td>
+                    <td class="grid-2" ng-bind="::item.provinceDesc"></td>
+                    <td class="grid-2" ng-bind="::item.cityDesc"></td>
+                    <td class="grid-2" ng-bind="::item.distDesc"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

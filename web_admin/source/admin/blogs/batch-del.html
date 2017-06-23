@@ -1,0 +1,47 @@
+<div class="form-group">
+    <ol style="display: inline-block;width: 30%;padding-left: 0px;list-style-type: none;">
+        <li ng-repeat="item in vm.blogs" ng-show="$index < 20" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+            <label>
+                {{$index + 1}}&nbsp;
+                <input name="batch-del" type="checkbox" value="{{item.id}}" ng-model="vm.batchDelIds"/>&nbsp;&nbsp;
+                {{item.titleName}}
+            </label>
+        </li>
+    </ol>
+    <ol style="display: inline-block;width: 30%;padding-left: 0px;list-style-type: none;">
+        <li ng-repeat="item in vm.blogs" ng-show="$index >= 20 && $index < 40" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+            <label>
+                {{$index + 1}}&nbsp;
+                <input name="batch-del" type="checkbox" value="{{item.id}}" ng-model="vm.batchDelIds"/>&nbsp;&nbsp;
+                {{item.titleName}}
+            </label>
+        </li>
+    </ol>
+    <ol style="display: inline-block;width: 30%;padding-left: 0px;list-style-type: none;">
+        <li ng-repeat="item in vm.blogs" ng-show="$index >= 40" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+            <label>
+                {{$index + 1}}&nbsp;
+                <input name="batch-del" type="checkbox" value="{{item.id}}" ng-model="vm.batchDelIds"/>&nbsp;&nbsp;
+                {{item.titleName}}
+            </label>
+        </li>
+    </ol>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger" ng-click="vm.batchDelSelectAll()">
+            <i class="fa fa-fw fa-check"></i>全选
+        </button>
+    </div>
+</div>
+<div class="btn-group btn-group-justified">
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger" ng-click="modalModel.confirm(vm.batchDelIds, true)">
+            <i class="fa fa-fw fa-check"></i>确定
+        </button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-link" ng-click="modalModel.cancel('dismiss', true)">
+            <i class="fa fa-fw fa-times"></i>取消
+        </button>
+    </div>
+</div>

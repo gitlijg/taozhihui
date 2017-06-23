@@ -1,0 +1,33 @@
+<vn-page-heading heading="会议管理" sub-heading="Meeting Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>会议墙配置</h5></div>
+
+        <div class="panel-body">
+            <form name="vm.form">
+                <div class="form-group">
+                    <label class="control-label" for="url">访问地址：</label>
+                    <a class="form-control-static" id="url" name="url" ng-href="{{vm.config.url}}" ng-bind="vm.config.url"></a>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="tagNames">关联标签：</label>
+                    <span class="form-control-static" id="tagNames" name="tagNames" ng-bind="::vm.config.tagNames"></span>
+                </div>
+                <div class="form-group" ng-class="{'has-error': vm.form.wallLoopTime.$touched && vm.form.wallLoopTime.$invalid}">
+                    <label class="control-label" for="wallLoopTime">循环时间：</label>
+                    <ng-messages for="vm.form.wallLoopTime.$error" multiple ng-show="vm.form.wallLoopTime.$touched">
+                        <ng-message class="text-danger" when="required">必须填写</ng-message>
+                        <ng-message class="text-warning" when="number">必须数字</ng-message>
+                    </ng-messages>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="wallLoopTime" name="wallLoopTime" ng-model="vm.config.wallLoopTime" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="vm.saveConfig()" ng-if="!admin.isReadOnly">保存</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

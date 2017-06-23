@@ -1,0 +1,62 @@
+// 紧凑表单
+.form-condensed {
+    legend {
+        font-size: 18px;
+    }
+
+    .form-group {
+        @include container;
+    }
+
+    fieldset:last-child .form-group {
+        margin-bottom: 0;
+    }
+
+    .control-label {
+        @include span(first 3 of 12);
+        margin-top: 7.5px;
+        text-align: right;
+    }
+
+    .wide-labels .control-label {
+        @include span(first 5 of 12);
+    }
+
+    .wide-labels .form-control,
+    .wide-labels .form-control-static,
+    .wide-labels .checkbox-control,
+    .wide-labels .radio-control {
+        @include span(last 7 of 12);
+    }
+
+    .form-control,
+    .form-control-static,
+    .checkbox-control,
+    .radio-control,
+    .ui-select-container.ui-select-inline {
+        @include span(last 9 of 12);
+
+        .ui-select-search,
+        .ui-select-toggle {
+            @include span(12);
+        }
+    }
+
+    .checkbox-control,
+    .radio-control {
+        padding: 8px 4px 6px;
+
+        input[type=radio] { margin-top: 2px; }
+        input[type=checkbox] { margin-top: 3px; }
+    }
+
+    .ui-select-container {
+        @include span(12);
+    }
+}
+
+.search-group {
+    .form-group {
+        margin-bottom: 0px;
+    }
+}

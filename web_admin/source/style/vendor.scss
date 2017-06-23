@@ -1,0 +1,186 @@
+/*
+ * 覆盖 Bootstrap 变量
+ */
+
+// 背景色
+$body-bg: #f0f3f4;
+
+// 导航
+$navbar-default-bg:                #fff;
+$navbar-default-link-color:        #58666e;
+$navbar-default-link-hover-color:  #263845;
+$navbar-default-link-active-color: #f0f3f4;
+$navbar-default-link-active-bg:    #1c2b36;
+$navbar-margin-bottom:             0;
+
+// 组件
+$border-radius-base: 1px;
+$border-radius-large: 3px;
+$border-radius-small: 0;
+
+$dropdown-border: transparent;
+
+$panel-inner-border:       #edf1f2;
+$panel-footer-bg:          #f6f7f7;
+$panel-default-border:     #dee5e7;
+$panel-default-heading-bg: #f6f7f7;
+
+/*
+ * 覆盖 Font Awesome 变量
+ */
+$fa-font-path: "fonts" !default;
+
+@import
+"bootstrap",
+"font-awesome",
+"angular-motion",
+"bootstrap-additions",
+"select"
+;
+
+/*
+ * 覆盖 Bootstrap 样式
+ */
+.btn {
+    padding-top: 7px;
+}
+
+.label {
+    border-radius: .2em;
+}
+
+.dropdown-menu > li > a {
+    padding-top:    5px;
+    padding-bottom: 5px;
+}
+
+.panel-heading {
+    position: relative;
+}
+
+.panel-heading .close {
+    margin-top: 5px;
+    color: #fff;
+    text-shadow: none;
+
+    &:hover { color: #fff; opacity: 0.8; }
+}
+
+.panel-footer {
+    position: relative;
+}
+
+.panel-group .panel-heading {
+    padding: 5px 5px 5px 10px;
+
+    .panel-title > small {
+        @extend .text-muted
+    }
+}
+
+.panel-search {
+    position: absolute;
+    top:      7px;
+    right:    7px;
+
+    .form-group .form-control,
+    .input-group .form-control {
+        min-width: 200px;
+        padding: 7px 12px 5px;
+    }
+}
+
+.table {
+    margin-bottom: 0;
+
+    .form-control-static {
+        padding: 5px;
+    }
+}
+
+.table > thead > tr > th {
+    border-width: 1px;
+}
+
+th > .fa-sort-up,
+th > .fa-sort-down {
+    float:      right;
+    margin-top: 3px;
+}
+
+.form-group .help-block {
+    margin-bottom: 0px;
+}
+
+/*
+ * 覆盖 Bootstrap-Additions 样式
+ */
+a[disabled] {
+    color: #314554;
+    @extend .btn.disabled;
+}
+
+.aside > .panel {
+    margin-bottom: 0;
+    height:        100%;
+    border:        none;
+    border-radius: 0;
+}
+
+.aside.center {
+    top:       5%;
+    bottom:    5%;
+    left:      10%;
+    right:     10%;
+    width:     80%;
+    min-width: auto;
+}
+
+.aside.right {
+    top:       0;
+    bottom:    0;
+    right:     0;
+    left:      auto;
+    width:     480px;
+    min-width: auto;
+}
+
+.modal > .panel {
+    position:  absolute;
+    top:       50%;
+    left:      50%;
+    margin:    auto;
+    max-width:     70%;
+    transform: translate(-50%, -50%);
+}
+
+.pagination {
+    margin: 5px auto 0;
+}
+
+.pagination-meta {
+    position: absolute;
+    bottom: 0.75em;
+    left: 0.75em;
+    color: #98a6ad;
+}
+
+.typeahead.dropdown-menu {
+    overflow-y: auto;
+    max-height: 272px;
+}
+
+/*
+ * 覆盖 Bootstrap-Additions 样式
+ */
+.ui-select-search {
+    padding: 13px 12px;
+}
+
+.ui-select-match-item {
+    padding: 4px 4px 4px 6px;
+}
+
+.input-group > .ui-select-bootstrap > input.ui-select-search.form-control {
+    border-radius: $border-radius-base;
+}

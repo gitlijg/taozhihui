@@ -1,0 +1,72 @@
+<vn-page-heading heading="问卷调查" sub-heading="Customspace Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>问卷调查</h5>
+
+            <div class="panel-search form-inline">
+                <div class="input-group">
+                    <select class="form-control" ng-model="vm.queryParams.type" ng-click="vm.search()">
+                        <option value="A">草稿</option>
+                        <option value="B">发布</option>
+                        <option value="C">结束</option>
+                    </select>
+                </div>
+                <div class="input-group" ng-if="!admin.isReadOnly">
+                    <button type="button" class="btn btn-primary" ng-click="vm.action({type: 'create', text: '创建问卷'})">
+                        <i class="fa fa-fw fa-plus"></i>创建问卷
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+                <tr>
+                    <th class="grid-2 clickable">
+                        问卷ID
+                    </th>
+                    <th class="grid-2 clickable">
+                        问卷名称
+                    </th>
+                    <th class="grid-4 clickable">
+                        问卷描述
+                    </th>
+                    <th class="grid-2 clickable">
+                        最大可选项
+                    </th>
+                    <th class="grid-2 clickable">
+                        问题列表
+                    </th>
+                    <th class="grid-2 clickable">
+                        问卷
+                    </th>
+                    <th class="grid-2 clickable">
+                        回答
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="stream in vm.list">
+                    <td class="grid-2" ng-bind="::stream.id"></td>
+                    <td class="grid-2" bs-tooltip data-title="{{::stream.tableName}}" data-placement="top">
+                        <a href="" ng-bind="::stream.tableName | limitTo : 26" ng-click="vm.action({type: 'update', text: '修改问卷',data:stream})"></a></td>
+                    <td class="grid-4" ng-bind="::stream.tableDesc"></td>
+                    <td class="grid-2" ng-bind="::stream.optionLimit"></td>
+                    <td class="grid-2"><a href="" ui-sref="customspace-fieldCreate({tableId:stream.id})">进入</a></td>
+                    <td class="grid-2"><a href="">问卷导出</a></td>
+                    <td class="grid-2" ng-show="stream.tableType == 'A' && !admin.isReadOnly"><a href="" ng-click="vm.pulish(stream)">发布</a></td>
+                    <td class="grid-2" ng-show="stream.tableType == 'B' && !admin.isReadOnly"><a href="" ng-click="vm.close(stream)">关闭</a></td>
+                    <td class="grid-2" ng-show="stream.tableType == 'C' && !admin.isReadOnly"><a href="">回答导出</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

@@ -1,0 +1,12 @@
+.signin-page {
+    @include container;
+}
+
+.signin {
+    @include span(4 at 9 of 20 split);
+    margin-top: 10%;
+
+    h2 {
+        color: #58666e;
+    }
+}

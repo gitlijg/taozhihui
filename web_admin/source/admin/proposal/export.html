@@ -1,0 +1,32 @@
+<vn-page-heading heading="合理化建议管理" sub-heading="Rational Proposal Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>合理化建议数据导出</h5></div>
+
+        <div class="panel-body">
+            <div class="form-group grid-8">
+                <input class="form-control" placeholder="开始日期" ng-model="vm.beginDate" bs-datepicker data-placement="bottom" data-max-date="today">
+            </div>
+            <div class="form-group grid-8">
+                <input class="form-control" placeholder="结束日期" ng-model="vm.endDate" bs-datepicker data-placement="bottom" data-max-date="today">
+            </div>
+            <div class="form-group grid-16">
+                <ui-select class="ui-select-inline" ng-model="vm.departmentId">
+                    <ui-select-match placeholder="选择部门">
+                        {{$select.selected.departmentName}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="department.id as department in vm.departmentList">
+                        <span>{{::department.departmentName}}</span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group grid-16 clearfix">
+                <button type="button" class="btn btn-primary pull-right" ng-disabled="!vm.beginDate || !vm.endDate " ng-click="vm.export()">
+                    <i class="fa fa-fw fa-download"></i>导出
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

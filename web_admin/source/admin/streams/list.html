@@ -1,0 +1,82 @@
+<vn-page-heading heading="消息管理" sub-heading="Streams Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>消息列表</h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <ui-select ng-model="vm.queryParams.name">
+                        <ui-select-match placeholder="按作者搜索记录">
+                            {{$select.selected.aliasName}}
+                        </ui-select-match>
+                        <ui-select-choices refresh="vm.getUsers($select.search)" repeat="user.aliasName as user in vm.users">
+                            <span>{{::user.aliasName}}</span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="input-group">
+                    <input class="form-control" ng-model="vm.queryParams.title" placeholder="输入标题关键字搜索消息" ui-keydown="{'enter': 'vm.search()'}">
+                </div>
+                <div class="input-group btn-group">
+                    <button type="button" class="btn btn-primary" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-1 clickable" ng-click="vm.sorter.reorder('status')">
+                        状态<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'status'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-6 clickable" ng-click="vm.sorter.reorder('titleName')">
+                        标题<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'titleName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('createByName')">
+                        作者<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createByName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('annexation')">
+                        类型<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'annexation'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('streamComefrom')">
+                        来源<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'streamComefrom'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('createDate')">
+                        日期<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-1">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="stream in vm.streams | orderBy : vm.sorter.order : vm.sorter.reverse track by stream.id">
+                    <td class="grid-1" ng-bind="::stream.status"></td>
+                    <td class="grid-6" ng-bind="::stream.titleName | limitTo : 26" bs-tooltip data-title="{{::stream.titleName}}" data-placement="top"></td>
+                    <td class="grid-2" ng-bind="::stream.createByName"></td>
+                    <td class="grid-2" ng-bind="::stream.annexation | readable : 'annexation'"></td>
+                    <td class="grid-2" ng-bind="::stream.streamComefrom | readable : 'origin'"></td>
+                    <td class="grid-2" ng-bind="::stream.createDate | readable : 'date'"></td>
+
+                    <td class="grid-1">
+                        <a ng-click="vm.delete(stream)"  ng-if="!admin.isReadOnly">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

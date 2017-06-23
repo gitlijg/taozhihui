@@ -1,0 +1,98 @@
+<vn-page-heading heading="群组管理" sub-heading="Teams Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>群组列表</h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <span class="input-group-addon" ng-hide="vm.queryParams.query"><i class="fa fa-fw fa-search"></span>
+                    <span class="input-group-addon clickable" ng-show="vm.queryParams.query" ng-click="vm.reset('query')"><i class="fa fa-fw fa-times-circle"></span>
+                    <input class="form-control" ng-model="vm.queryParams.query" ui-keydown="{'enter': 'vm.search()'}" placeholder="按名称或首字母搜索群组">
+                </div>
+                <div class="input-group" ng-if="::admin.isSubAdmin && !admin.isReadOnly">
+                    <button type="button" class="btn btn-primary" ng-click="vm.action({type: 'create', text: '新建群组'})">
+                        <i class="fa fa-fw fa-plus"></i>新建群组
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-1 clickable" ng-click="vm.sorter.reorder('delFlag')">
+                        状态<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'delFlag'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('teamName')">
+                        群组名称<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'teamName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('createName')">
+                        群主姓名<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('createDate')">
+                        创建日期<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('updateDate')">
+                        更新日期<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'updateDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-1 clickable" ng-click="vm.sorter.reorder('isOpen')">
+                        <span bs-tooltip data-title="是否允许非该群组成员加入" data-placement="top" data-delay="{show: 100, hide: 1000}"><i class="fa fa-question-circle"></i> 开放</span>
+                        <i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'isOpen'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-1 clickable" ng-click="vm.sorter.reorder('isWrite')">
+                        <span bs-tooltip data-title="是否允许非该群组成员发表" data-placement="top" data-delay="{show: 100, hide: 1000}"><i class="fa fa-question-circle"></i> 发表</span>
+                        <i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'isWrite'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="team in vm.teams | orderBy : vm.sorter.order : vm.sorter.reverse  track by team.id">
+                    <td class="grid-1" ng-switch="::team.delFlag">
+                        <span class="label label-success" ng-switch-when="0">可用</span>
+                        <span class="label label-danger" ng-switch-when="1">删除</span>
+                    </td>
+
+                    <td class="grid-3" ng-bind="::team.teamName | limitTo : 16" bs-tooltip data-title="{{::team.teamName}}" data-placement="top"></td>
+                    <td class="grid-3">
+                        <span class="text-warning">{{::team.createName}}</span>
+                    </td>
+                    <td class="grid-2" ng-bind="::team.createDate | readable : 'date'"></td>
+                    <td class="grid-2" ng-bind="::team.updateDate | readable : 'date'"></td>
+
+                    <td class="grid-1" ng-switch="::team.isOpen">
+                        <span class="text-danger" ng-switch-when="0">否</span>
+                        <span class="text-success" ng-switch-when="1">是</span>
+                    </td>
+                    <td class="grid-1" ng-switch="::team.isWrite">
+                        <span class="text-danger" ng-switch-when="0">否</span>
+                        <span class="text-success" ng-switch-when="1">是</span>
+                    </td>
+
+                    <td class="grid-3">
+                        <div ng-if="!admin.isReadOnly">
+                            <a ui-sref="teams.show({id: team.id})" ng-disabled="admin.isAdmin">管理成员</a>
+                            <span class="text-muted">|</span>
+                            <a ng-click="vm.action({type: 'update', text: '编辑群组', data: team})" ng-disabled="admin.isAdmin">编辑</a>
+                            <span class="text-muted">|</span>
+                            <a ng-click="vm.delete({text: '确定删除吗？', data: team})" ng-disabled="admin.isAdmin">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

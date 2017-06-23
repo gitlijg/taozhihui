@@ -1,0 +1,80 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.tagName.$dirty && vm.form.tagName.$valid,
+        'has-error': vm.form.tagName.$touched && vm.form.tagName.$invalid
+        }">
+        <label class="control-label" for="tagName">标签名称：</label>
+        <input class="form-control" id="tagName" name="tagName" ng-model="vm.tag.tagName" required>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="tagDesc">标签描述：</label>
+        <textarea class="form-control" id="tagDesc" name="tagDesc" ng-model="vm.tag.tagDesc" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="tagSyno">同义标签：</label>
+        <input class="form-control" id="tagSyno" name="tagSyno" ng-model="vm.tag.tagSyno">
+    </div>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.orderId.$dirty && vm.form.orderId.$valid,
+        'has-error': vm.form.orderId.$touched && vm.form.orderId.$invalid
+        }">
+        <label class="control-label" for="orderId">标签排序：</label>
+        <input class="form-control" id="orderId" name="orderId" ng-model="vm.tag.orderId" required>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="tagType">标签类型：</label>
+        <select class="form-control" id="tagType" name="tagType" ng-model="vm.tag.tagType">
+            <option ng-repeat="type in vm.types" value="{{::type.code}}">{{::type.text}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="control-label">标签性质：</label>
+        <div class="radio-control">
+            <label class="radio-inline">
+                <input type="radio" name="orgFlag" value="P" ng-model="vm.tag.orgFlag"> 个人
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="orgFlag" value="O" ng-model="vm.tag.orgFlag"> 公司
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="orgFlag" value="M" ng-model="vm.tag.orgFlag"> 管理员
+            </label>
+        </div>
+    </div>
+    <div class="form-group" ng-switch="vm.formMode">
+        <button class="btn btn-primary" type="button" ng-switch-when="create" ng-click="asideModel.confirm({type: vm.formMode})" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-plus"></i>添加
+        </button>
+        <button class="btn btn-primary" type="button" ng-switch-when="update" ng-click="asideModel.confirm({type: vm.formMode})" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-save"></i>更新
+        </button>
+        <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+            <i class="fa fa-fw fa-times"></i>取消
+        </button>
+    </div>
+
+    <fieldset ng-if="vm.tag.id">
+        <legend class="text-muted">标签合并</legend>
+        <div class="form-group">
+            <!-- <input class="form-control" id="candidates" ng-model="vm.candidates" bs-typeahead bs-options="user.userInfo.userName as user.userInfo.userName for user in vm.searchUsers($viewValue)" placeholder="输入姓名或首字母搜索用户然后在列表点击添加"> -->
+            <ui-select multiple ng-model="vm.mergeTag.list">
+                <ui-select-match placeholder="输入标签">
+                    {{$item.tagName}}
+                </ui-select-match>
+                <ui-select-choices repeat="tag.id as tag in vm.mergeTag.searchList | filter:$select.search track by $index ">
+                    <strong>{{tag.tagName}}</strong>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </fieldset>
+    <fieldset ng-if="vm.tag.id">
+        <div class="form-group" >
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'merge'})" >
+                <i class="fa fa-fw fa-plus"></i>合并
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

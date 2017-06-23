@@ -1,0 +1,32 @@
+@mixin panel(
+    $type:             major,
+    $with-close:       true,
+    $background-color: #fff,
+    $border-radius:    2px,
+    $inverse:          false
+) {
+    @content;
+
+    background-color: $background-color;
+    border-radius:    $border-radius;
+    box-shadow:       0 1px 3px 0 transparentize(color(major), 0.5);
+
+    .panel-heading {
+        @include flash($type: $type, $inverse: $inverse, $border-radius: 0);
+        border-color:            transparent;
+        border-top-left-radius:  $border-radius;
+        border-top-right-radius: $border-radius;
+    }
+
+    .panel-body {
+        padding: 1em;
+        color:   adjust-color(color(major), $alpha: -0.15);
+
+        p:last-child { margin-bottom: 0; }
+    }
+
+    .panel-footer {
+        padding:    0.625em 1em;
+        border-top: 1px solid color(major, tint);
+    }
+}

@@ -1,0 +1,72 @@
+<vn-page-heading heading="权限管理" sub-heading="Roles & Permissions Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>角色列表<i class="fa fa-fw fa-spinner fa-pulse" ng-hide="vm.isLoaded"></i></h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+                    <input class="form-control" ng-model="vm.queryParams.name" placeholder="按名称或描述搜索角色">
+                </div>
+                <div class="input-group" ng-if="::admin.isAdmin">
+                    <button type="button" class="btn btn-primary" ng-click="vm.createRole()">
+                        <i class="fa fa-fw fa-plus"></i>添加角色
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('type')">
+                        角色类型<i class="fa fa-fw" ng-show="vm.sorter.order === 'type'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('name')">
+                        角色名称<i class="fa fa-fw" ng-show="vm.sorter.order === 'name'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-4 clickable" ng-click="vm.sorter.reorder('roleDesc')">
+                        角色描述<i class="fa fa-fw" ng-show="vm.sorter.order === 'roleDesc'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('createDate')">
+                        创建日期<i class="fa fa-fw" ng-show="vm.sorter.order === 'createDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sorter.reorder('updateDate')">
+                        更新日期<i class="fa fa-fw" ng-show="vm.sorter.order === 'updateDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-1">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="role in vm.roles | orderBy : vm.sorter.order : vm.sorter.reverse  track by role.id">
+                    <td class="grid-2" ng-bind="::role.type | readable : 'role'"></td>
+                    <td class="grid-3" ng-bind="::role.name"></td>
+                    <td class="grid-4" ng-bind="::role.roleDesc"></td>
+                    <td class="grid-3" ng-bind="::role.createDate | readable : 'date'"></td>
+                    <td class="grid-3" ng-bind="::role.updateDate | readable : 'date'"></td>
+
+                    <td class="grid-1">
+                        <div ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.updateRole(role)" ng-disabled="admin.isSubAdmin">编辑</a>
+                            <span class="text-muted">|</span>
+                            <a ng-click="vm.deleteRole(role)" ng-disabled="admin.isSubAdmin">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

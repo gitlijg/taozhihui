@@ -1,0 +1,74 @@
+<vn-page-heading heading="会议管理" ></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>会议列表</h5>
+
+            <div class="panel-search form-inline">
+                <div class="input-group">
+                    <input class="form-control" ng-model="vm.queryParams.meetingName" placeholder="输入会议名称关键字搜索" ui-keydown="{'enter': 'vm.search()'}">
+                </div>
+                <div class="input-group btn-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>搜索
+                    </button>
+                </div>
+                <div class="input-group btn-group" ng-if="!admin.isReadOnly">
+                    <button type="button" class="btn btn-primary" ng-click="vm.addMeeting()">
+                        <i class="fa fa-fw fa-plus"></i>新增
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+            <tr>
+                <th >
+                    会议名称
+                </th>
+                <th >
+                    开始时间
+                </th>
+                <th >
+                    地点
+                </th>
+                <th >
+                    报名上限
+                </th>
+                <th >操作</th>
+            </tr>
+            </thead>
+
+            <tbody class="text-muted">
+            <tr ng-if="vm.isEmpty">
+                <td class="alert alert-warning text-center" colspan="5">
+                    <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                </td>
+            </tr>
+            <tr ng-repeat="meeting in vm.meetings">
+                <td class="col-md-2" ng-bind="::meeting.meetingName"></td>
+                <td ng-bind="::meeting.meetingTime"></td>
+                <td class="col-md-4" ng-bind="::meeting.meetingPlace"></td>
+                <td ng-bind="::meeting.memberTotal"></td>
+                <td>
+                    <div ng-if="!admin.isReadOnly">
+                        <a ng-href="meeting-status.html?{{meeting.id}}">签到展示</a>
+                        <a ui-sref="meeting.members({meetingId: meeting.id})">报名人员</a>
+                        <a href="" ng-click="vm.showQRCode(meeting.id)">二维码</a>
+                        <a ng-click="vm.updateMeeting(meeting)">修改</a>
+                        <a ng-click="vm.delete(meeting)">删除</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

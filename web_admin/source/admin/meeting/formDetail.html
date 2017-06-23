@@ -1,0 +1,8 @@
+<form class="form-condensed" vn-auto-height listen-on="aside.show" parent>
+    <fieldset>
+        <div class="form-group" ng-repeat="item in member.findDiyList">
+            <label class="control-label" ng-bind="item.fieldName + ' : '"></label>
+            <p class="form-control-static" ng-bind="item.diyValue"></p>
+        </div>
+    </fieldset>
+</form>

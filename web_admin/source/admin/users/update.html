@@ -1,0 +1,203 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <fieldset>
+        <legend class="text-muted">修改密码</legend>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.plainPassword.$dirty && vm.form.plainPassword.$valid,
+            'has-error': vm.form.plainPassword.$touched && vm.form.plainPassword.$invalid
+            }">
+            <label class="control-label" for="plainPassword">登录密码：</label>
+            <input class="form-control" id="plainPassword" name="plainPassword" ng-model="vm.user.plainPassword" required>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'password'}, true)" ng-disabled="vm.form.plainPassword.$invalid">
+                <i class="fa fa-fw fa-save"></i>保存
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend class="text-muted">分配积分</legend>
+        <div class="form-group" >
+            <label class="control-label" >积分(可为负值)：</label>
+            <input class="form-control" type="number" name="integral" ng-model="vm.user._integral" required>
+        </div>
+        <div class="form-group" >
+            <label class="control-label" >备注：</label>
+            <input class="form-control" type="text" ng-model="vm.user._integralRemark" required>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'integral'}, true)" ng-disabled="vm.form.integral.$invalid">
+                <i class="fa fa-fw fa-save"></i>保存
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend class="text-muted">用户角色</legend>
+        <div class="form-group">
+            <label class="control-label">选择角色：</label>
+            <div class="form-control-static">
+                <div class="checkbox" ng-repeat="role in vm.roles track by role.id" style="margin-top: 0px">
+                    <label for="roleList{{$index}}">
+                        <input type="checkbox" id="roleList{{$index}}" name="roleList{{$index}}" ng-model="vm.user.roleIds" value="{{::role.id}}"> {{::role.roleDesc}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'role'}, true)" >
+                <i class="fa fa-fw fa-save"></i>保存
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend class="text-muted">账号信息</legend>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.loginName.$dirty && vm.form.loginName.$valid,
+            'has-error': vm.form.loginName.$touched && vm.form.loginName.$invalid
+            }">
+            <label class="control-label" for="loginName">登录账号：</label>
+            <input class="form-control" id="loginName" name="loginName" ng-model="vm.user.loginName" required>
+        </div>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.userName.$dirty && vm.form.userName.$valid,
+            'has-error': vm.form.userName.$touched && vm.form.userName.$invalid
+            }">
+            <label class="control-label" for="userName">用户昵称：</label>
+            <input class="form-control" id="userName" name="userName" ng-model="vm.user.userName" required>
+        </div>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.trueName.$dirty && vm.form.trueName.$valid,
+            'has-error': vm.form.trueName.$touched && vm.form.trueName.$invalid
+            }">
+            <label class="control-label" for="trueName">真实姓名：</label>
+            <input class="form-control" id="trueName" name="trueName" ng-model="vm.user.trueName" required>
+        </div>
+        <div class="form-group">
+            <label class="control-label">手机登录：</label>
+            <div class="radio-control">
+                <label class="radio-inline">
+                    <input type="radio" name="allowLoginFromMobile" value="1" ng-model="vm.user.allowLoginFromMobile"> 允许
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="allowLoginFromMobile" value="0" ng-model="vm.user.allowLoginFromMobile"> 禁止
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-show="vm.user.allowLoginFromMobile == 1">
+            <label class="control-label">接收推送：</label>
+            <div class="radio-control">
+                <label class="radio-inline">
+                    <input type="radio" name="receiveMessage" value="1" ng-model="vm.user.receiveMessage"> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="receiveMessage" value="0" ng-model="vm.user.receiveMessage"> 否
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="departmentId">部门：</label>
+            <ui-select class="ui-select-inline" ng-model="vm.user.departmentId">
+                <ui-select-match placeholder="输入名称搜索">
+                    {{$select.selected.departmentName}}
+                </ui-select-match>
+                <ui-select-choices refresh="vm.getDepartments($select.search)" repeat="department.id as department in vm.departments">
+                    <span>{{::department.departmentName}}</span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="title">职位：</label>
+            <input class="form-control" id="title" name="title" ng-model="vm.user.title">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="birthday">生日：</label>
+            <input class="form-control" id="birthday" name="birthday" ng-model="vm.user.birthdayFormat" bs-datepicker data-placement="top" data-max-date="today">
+        </div>
+        <div class="form-group">
+            <label class="control-label">性别：</label>
+            <div class="radio-control">
+                <label class="radio-inline">
+                    <input type="radio" name="gender" value="1" ng-model="vm.user.gender"> 男
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="gender" value="0" ng-model="vm.user.gender"> 女
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="phoneNumber">手机：</label>
+            <input class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.user.phoneNumber">
+        </div>
+        <div class="form-group" ng-show="vm.user.phoneNumber">
+            <label class="control-label">公开手机：</label>
+            <div class="radio-control">
+                <label class="radio-inline">
+                    <input type="radio" name="viewPhone" value="1" ng-model="vm.user.viewPhone"> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="viewPhone" value="0" ng-model="vm.user.viewPhone"> 否
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="email">邮箱：</label>
+            <input class="form-control" id="email" name="email" ng-model="vm.user.email">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="website">网址：</label>
+            <input class="form-control" id="website" name="website" ng-model="vm.user.website">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="qq">QQ：</label>
+            <input class="form-control" id="qq" name="qq" ng-model="vm.user.qq">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="weixin">微信：</label>
+            <input class="form-control" id="weixin" name="weixin" ng-model="vm.user.weixin">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="signature">签名：</label>
+            <input class="form-control" id="signature" name="signature" ng-model="vm.user.signature">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="recommend">推荐说明：</label>
+            <textarea class="form-control" id="recommend" rows="5" name="recommend" ng-model="vm.user.recommend"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="avatar">头像：</label>
+            <div class="form-control-static drop-box text-center" id="avatar" accept="image/*"
+                ngf-select ngf-drop ngf-accept="'image/*'" ngf-change="vm.upload($files)"
+                ngf-drag-over-class="{accept:'drop-accept', reject:'drop-reject', delay:100}">
+                <i class="fa fa-fw fa-cloud-upload"></i>点击选择或将文件拖拽至此即可上传
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-control-static upload-preview">
+                <div class="uploading" ng-show="vm.uploading">
+                    <span class="uploading-indicator">
+                        <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                    </span>
+                </div>
+                <img ng-if="vm.files" ng-repeat="file in vm.files" ngf-src="file" ng-show="file.type.indexOf('image') > -1" ngf-accept="'image/*'">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm({type: 'userinfo'}, true)" ng-disabled="vm.form.$touched">
+                <i class="fa fa-fw fa-save"></i>更新
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

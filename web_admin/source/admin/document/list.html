@@ -1,0 +1,24 @@
+<vn-page-heading heading="文档管理" sub-heading="Document Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>系统文档</h5>
+        </div>
+        <div class="text-center">
+            <div style="margin: 25px 0 0 0" class="col-md-3">
+                <div style="padding: 2px; background-color: rgba(0,0,0,0.05);width: 90%;">
+                    <a style="color: #0175c1; text-decoration: none;display: block; background-color: #fff; padding: 35px 0; border: 1px solid #cfd9db;" href="" ng-click="vm.photos(vm.folderList)">
+                        <i class="fa fa-folder-open fa-5x"></i>
+                        <br/>
+                        <br/>
+                        <span ng-bind="vm.folderList.folderName">{{ vm.today | date:'yyyy-MM-dd' }}</span>
+                    </a>
+                </div>
+                <div class="col-md-10" ng-if="!admin.isReadOnly">
+                    <a href="" ng-click="vm.action({type: 'update', text: '修改相册',data: vm.folderList})"><i class="fa fa-pencil"></i>改名</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

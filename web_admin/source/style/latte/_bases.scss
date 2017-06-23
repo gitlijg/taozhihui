@@ -1,0 +1,109 @@
+////
+//  基础HTML元素样式
+//  普通文本、链接、标题、表单、表格等基础HTML元素的样式定义。
+//  只允许出现HTML标签选择符，不允许出现 id, class 等选择符。
+//
+//  @group 基础样式
+//  @author 余凡
+////
+
+/// :root
+:root {
+    font: 0.875rem / 1.5 family(sans-serif);
+    color: color(major);
+}
+
+/// H1 - H6
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1em;
+    line-height:   2;
+
+    @include within(('.page-heading', '.panel-heading')) {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+h1 { font-size: 1.725rem; }
+
+h2 { font-size: 1.5rem; }
+
+h3 { font-size: 1.25rem; }
+
+h4 { font-size: 1.125rem; }
+
+h5 { font-size: 1rem; }
+
+h6 { font-size: 0.85rem; }
+
+/// 当标题级别 <= h4 时，75% 的 small 没有意义，故重新定义
+h4, h5, h6 {
+    small {
+        font-size: 90%;
+        color: color(major, line);
+    }
+}
+
+/// p
+p {
+    margin-bottom: 1.5em;
+
+    img {
+        width: 100%;
+    }
+
+    br + img,
+    img + img {
+        margin-top: 1em;
+    }
+}
+
+/// A
+a {
+    color: color(link);
+
+    @include hover-focus-active {
+        color: adjust-color(color(link), $saturation: 5%, $lightness: 5%);
+    }
+}
+
+code, kbd, pre, samp {
+    font-family: family(monospace);
+}
+
+code {
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+///
+.clickable {
+    user-select: none;
+    @include hover-focus-active
+}
+
+///
+.close {
+    // TODO: 或许可以抽象一个字体重置？
+    font-style:   normal;
+    font-variant: normal;
+    font-weight:  normal;
+
+    @include hover-focus-active;
+}
+
+///
+%with-close {
+    // 需要 .close 的时候再启用定位
+    & { position: relative; }
+
+    // TODO: 目前只给 flash 用了，不知是否还需进一步抽象
+    & > .close {
+        position:   absolute;
+        top:        50%;
+        right:      1em;
+        margin-top: -0.75em;
+    }
+}

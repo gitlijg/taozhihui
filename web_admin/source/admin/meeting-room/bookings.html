@@ -1,0 +1,45 @@
+<vn-page-heading heading="会议室管理" sub-heading="Meeting Rooms Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5>会议预定</h5>
+            <div class="panel-search form-inline">
+                <div class="input-group">
+                    <input class="form-control" placeholder="选择日期" ng-model="vm.queryParams.date" bs-datepicker data-placement="bottom" >
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="vm.search()">查看</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+                <tr>
+                    <th class="grid-2">预定情况</th>
+                    <th class="grid-3">预定时段</th>
+                    <th class="grid-3">预定用户</th>
+                    <th class="grid-6">备注</th>
+                    <th class="grid-2">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-repeat="booking in vm.bookings">
+                    <td class="grid-2" ng-if="booking.bookId">
+                        <span class="text-danger">已订</span>
+                    </td>
+                    <td class="grid-2" ng-if="!booking.bookId">
+                        <span class="text-success">未订</span>
+                    </td>
+                    <td class="grid-3" ng-bind="::booking.timeId | readable : 'booking'"></td>
+                    <td class="grid-3" ng-bind="::booking.userName | readable"></td>
+                    <td class="grid-6" ng-bind="::booking.remark | readable"></td>
+                    <td class="grid-2">
+                        <a ng-click="vm.cancle(booking)" ng-disabled="booking.disabled == 1 || !booking.bookId">取消</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

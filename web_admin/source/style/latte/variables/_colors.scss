@@ -1,0 +1,35 @@
+$colors: (
+    major: (
+        base: rgba(44, 68, 72, 1),
+        line: rgba(160, 185, 188, 1),
+        tint: rgba(233, 236, 239, 1)
+    ),
+
+    link: (
+        base: rgba(0, 160, 189, 1)
+    ),
+
+    blue: (
+        base: rgba(28, 86, 107, 1),
+        line: rgba(130, 190, 200, 1),
+        tint: rgba(180, 230, 236, 1)
+    ),
+
+    green: (
+        base: rgba(30, 107, 15, 1),
+        line: rgba(153, 204, 145, 1),
+        tint: rgba(222, 246, 207, 1)
+    ),
+
+    red: (
+        base: rgba(152, 45, 48, 1),
+        line: rgba(204, 163, 163, 1),
+        tint: rgba(251, 211, 206, 1)
+    ),
+
+    yellow: (
+        base: rgba(141, 103, 19, 1),
+        line: rgba(230, 207, 161, 1),
+        tint: rgba(253, 241, 184, 1)
+    )
+) !default;

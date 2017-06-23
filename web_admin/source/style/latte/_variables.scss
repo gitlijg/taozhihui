@@ -1,0 +1,16 @@
+////
+// 变量
+//
+// 所有的变量统一存放在 variables 模块下，以便于查看或修改。变量被分为若干文件，对应不同的类型。有些文件中会包含覆盖依赖项目变量的部分，依赖项目指的是：
+//
+// 1. sanitize.css
+// 2. susy
+//
+// @group Variables
+// @author Albert Yu
+////
+
+@import
+    "variables/fonts",
+    "variables/colors"
+;

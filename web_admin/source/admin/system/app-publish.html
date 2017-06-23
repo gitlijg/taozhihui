@@ -1,0 +1,36 @@
+<form name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <div class="form-group" ng-class="{ 'has-error': vm.form.clientName.$touched && vm.form.clientName.$invalid }">
+        <label for="clientName">应用名称：</label>
+        <input class="form-control" id="clientName" name="clientName" ng-model="vm.newApp.clientName" required>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': vm.form.clientDesc.$touched && vm.form.clientDesc.$invalid }">
+        <label for="clientDesc">应用描述：</label>
+        <textarea class="form-control" id="clientDesc" name="clientDesc" ng-model="vm.newApp.clientDesc" required></textarea>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': vm.form.clientVersion.$touched && vm.form.clientVersion.$invalid }">
+        <label for="clientVersion">应用版本：</label>
+        <input class="form-control" id="clientVersion" name="clientVersion" ng-model="vm.newApp.clientVersion" required>
+    </div>
+    <div class="form-group">
+        <label>应用类型：</label>
+        <div class="radio-control">
+            <label class="radio-inline"> <input type="radio" name="clientType" value="ios" ng-model="vm.newApp.clientType"> iOS </label>
+            <label class="radio-inline"> <input type="radio" name="clientType" value="android" ng-model="vm.newApp.clientType"> Android </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="image">上传应用：</label>
+        <div class="form-control-static drop-box text-center" id="attachment" ngf-select ngf-drop ngf-accept="'.apk,.ipa'" ngf-change="vm.upload($files)" ngf-drag-over-class="{accept:'drop-accept', reject:'drop-reject', delay:100}"><i class="fa fa-fw fa-cloud-upload"></i>点击选择或将文件拖拽至此即可上传</div>
+        <progressbar type="success" class="progress-striped active" ng-show="vm.progress > 1" value="vm.progress">
+            {{vm.progress}}%
+        </progressbar>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="button" ng-click="asideModel.confirm(undefined, true)" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-check"></i>发布
+        </button>
+        <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+            <i class="fa fa-fw fa-times"></i>取消
+        </button>
+    </div>
+</form>

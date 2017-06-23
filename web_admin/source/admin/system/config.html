@@ -1,0 +1,21 @@
+<vn-page-heading heading="系统管理" sub-heading="System Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading">
+            <h5>系统配置</h5>
+        </div>
+        <ul class="list-group list-group-higher">
+            <li class="list-group-item clearfix" ng-repeat="(key, value) in vm.config">
+                <strong>{{::key | readable : 'systemConfig'}}</strong>
+                <div class="switch">
+                    <input type="checkbox" class="switch-cb" id="{{::key}}" ng-model="vm.config[key]" ng-change="vm.update()" ng-disabled="admin.isReadOnly">
+                    <label class="switch-label" for="{{::key}}">
+                        <span class="switch-inner"></span>
+                        <span class="switch-switch"></span>
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<ul tabindex="-1" class="dropdown-menu" role="menu">
+    <li role="presentation" ng-class="{divider: item.divider}" ng-repeat="item in content" >
+        <a role="menuitem" tabindex="-1" ng-href="{{item.href}}" ng-if="!item.divider && item.href" target="{{item.target || ''}}">
+            <i ng-if="item.prefix" class="fa fa-fw" ng-class="item.prefix"></i>
+            <span ng-bind-html="::item.text"></span>
+            <i ng-if="item.suffix" class="pull-right fa fa-fw" ng-class="item.suffix"></i>
+        </a>
+        <a role="menuitem" tabindex="-1" ui-sref="{{item.sref}}" ng-if="!item.divider && item.sref" target="{{item.target || ''}}">
+            <i ng-if="item.prefix" class="fa fa-fw" ng-class="item.prefix"></i>
+            <span ng-bind-html="::item.text"></span>
+            <i ng-if="item.suffix" class="pull-right fa fa-fw" ng-class="item.suffix"></i>
+        </a>
+        <a role="menuitem" tabindex="-1" ng-if="!item.divider && item.click" ng-click="$eval(item.click);$hide()">
+            <i ng-if="item.prefix" class="fa fa-fw" ng-class="item.prefix"></i>
+            <span ng-bind-html="::item.text"></span>
+            <i ng-if="item.suffix" class="pull-right fa fa-fw" ng-class="item.suffix"></i>
+        </a>
+    </li>
+</ul>

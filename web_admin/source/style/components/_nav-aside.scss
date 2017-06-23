@@ -1,0 +1,92 @@
+.navbar-header {
+    position:         fixed;
+    top:              0;
+    left:             0;
+    width:            200px;
+    background-color: #1c2b36;
+
+    .navbar-brand {
+        display:    block;
+        width:      100%;
+        color:      #7793a7;
+        text-align: center;
+        @include hover-focus-active { color: #fff }
+    }
+}
+
+.nav-aside-wrapper {
+    position:         fixed;
+    top:              50px;
+    bottom:           0;
+    left:             0;
+}
+
+.nav-aside-user {
+    .avatar {
+        padding: 5px 15px;
+        text-align: center;
+    }
+
+    .avatar img {
+        display: block;
+        margin: 0 auto 10px;
+        border-radius: 50%;
+    }
+
+    .avatar .name {
+        @include hover-focus-active;
+    }
+}
+
+.nav-aside-menu {
+    width:            200px;
+    height:           100%;
+    overflow-y:       auto;
+    color:            #7793a7;
+    background-color: #1c2b36;
+
+    li {
+        &.active a { background-color: #131e26 }
+        @include hover-focus-active { a { background-color: #131e26 } }
+    }
+
+    li > a {
+        color: inherit;
+        @include hover-focus-active { background-color: #16232d; }
+    }
+}
+
+.nav-aside-item {
+    &.active > a { color: #fff }
+
+    span { font-weight: bold }
+
+    .fa-angle-right {
+        position:   absolute;
+        top:        13px;
+        right:      10px;
+        transition: transform .2s;
+    }
+}
+
+.nav-aside-submenu {
+    height:   0;
+    overflow: hidden;
+    font-size: 13px;
+
+    a {
+        opacity:    0;
+        transition: padding-left .2s, opacity .4s;
+    }
+
+    &.in {
+        height:   auto;
+        overflow: auto;
+    }
+
+    &.in a {
+        padding-left: 52px;
+        opacity:      1;
+        @include hover-focus-active { color: #fff }
+    }
+}

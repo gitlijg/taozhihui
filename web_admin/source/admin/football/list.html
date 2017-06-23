@@ -1,0 +1,83 @@
+<vn-page-heading heading="足彩管理" sub-heading="Football Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>足彩管理</h5>
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{'active' : vm.type == 'A'}"><a ng-click="vm.fixture();">国际联赛</a></li>
+            <li role="presentation" ng-class="{'active' : vm.type == 'B'}"><a ng-click="vm.zhongchao();">中超联赛</a></li>
+        </ul>
+
+        <div ng-show="vm.type == 'A'">
+            <button type="button" class="btn btn-default" ng-class="{'btn-primary' : vm.queryParams.leagueType == 1}" ng-click="vm.load(1)">意甲</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-primary' : vm.queryParams.leagueType == 2}" ng-click="vm.load(2)">西甲</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-primary' : vm.queryParams.leagueType == 3}" ng-click="vm.load(3)">德甲</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-primary' : vm.queryParams.leagueType == 4}" ng-click="vm.load(4)">英超</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-primary' : vm.queryParams.leagueType == 5}" ng-click="vm.load(5)">法甲</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-primary' : vm.queryParams.leagueType == 7}" ng-click="vm.load(7)">欧洲杯</button>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+                <tr>
+                    <th class="grid-3 clickable">
+                        赛程
+                    </th>
+                    <th class="grid-2 clickable">
+                        开赛时间
+                    </th>
+                    <th class="grid-4 clickable">
+                        主场
+                    </th>
+                    <th class="grid-4 clickable">
+                        客场
+                    </th>
+                    <th class="grid-3 clickable">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="stream in vm.list" ng-class="{'active' : stream.id == hover}">
+                    <td class="grid-3" ng-bind="::stream.title"></td>
+                    <td class="grid-2" ng-show="vm.type == 'A'" ng-bind="::stream.date"></td>
+                    <td class="grid-2" ng-show="vm.type == 'B'" ng-bind="::stream.kickoff"></td>
+
+                    <td class="grid-4" ng-show="vm.type == 'A'">
+                        <img src="{{stream.flagSmall1}}" alt=""/>&nbsp;
+                        <span ng-bind="::stream.team1"></span>
+                    </td>
+                    <td class="grid-4" ng-show="vm.type == 'A'">
+                        <img src="{{stream.flagSmall2}}" alt=""/>&nbsp;
+                        <span ng-bind="::stream.team2"></span>
+                    </td>
+
+                    <td class="grid-4" ng-show="vm.type == 'B'">
+                        <img src="{{stream.flagSmall1}}" alt=""/>&nbsp;
+                        <span ng-bind="::stream.home"></span>
+                    </td>
+                    <td class="grid-4" ng-show="vm.type == 'B'">
+                        <img src="{{stream.flagSmall2}}" alt=""/>&nbsp;
+                        <span ng-bind="::stream.away"></span>
+                    </td>
+                    <td class="grid-3">
+                        <button type="button" class="btn btn-warning" ng-disabled="::stream.publishStatus == 1" ng-bind="::stream.publishStatus==1?'已发布竞猜':'发布竞猜'"
+                                ng-click="vm.action({type: vm.type, text: '发布竞猜',data:stream})" ng-if="!admin.isReadOnly"
+                                ></button>
+                        <br>
+                        <br>
+                        <button ng-if="!admin.isReadOnly" type="button" ng-show="vm.type == 'A' && vm.queryParams.leagueType == 7" ng-disabled="stream.status == 1" ng-click="vm.pushJc({text: '发布结果',data:stream})" class="btn btn-info" ng-bind="::stream.status == 1?'已发布比赛结果':'发布比赛结果'"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

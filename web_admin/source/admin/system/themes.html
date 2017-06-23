@@ -1,0 +1,127 @@
+<vn-page-heading heading="系统管理" sub-heading="System Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>自定义样式</h5></div>
+        <ul class="list-group">
+            <li class="list-group-item media clearfix">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        登录页背景图：
+                        <small class="clickable" accept="image/*" ngf-select ngf-accept="'image/*'" ngf-change="vm.upload($files, 'A')">上传</small>
+                    </h5>
+                </div>
+                <div class="upload-preview">
+                    <div class="uploading" ng-show="vm.uploading">
+                        <span class="uploading-indicator">
+                            <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                        </span>
+                    </div>
+                    <img ng-src="{{::admin.api}}{{vm.theme.maxLoginBgUrl}}">
+                </div>
+            </li>
+
+            <li class="list-group-item media clearfix">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        应用内背景图：
+                        <small class="clickable" accept="image/*" ngf-select ngf-accept="'image/*'" ngf-change="vm.upload($files, 'B')">上传</small>
+                    </h5>
+                </div>
+                <div class="upload-preview">
+                    <div class="uploading" ng-show="vm.uploading">
+                        <span class="uploading-indicator">
+                            <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                        </span>
+                    </div>
+                    <img ng-src="{{::admin.api}}{{vm.theme.maxWebBgUrl}}">
+                </div>
+            </li>
+
+            <li class="list-group-item media clearfix">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        LOGO：
+                        <small class="clickable" accept="image/*" ngf-select ngf-accept="'image/*'" ngf-change="vm.upload($files, 'C')">上传</small>
+                    </h5>
+                </div>
+                <div class="upload-preview">
+                    <div class="uploading" ng-show="vm.uploading">
+                        <span class="uploading-indicator">
+                            <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                        </span>
+                    </div>
+                    <img ng-src="{{::admin.api}}{{vm.theme.maxLogoUrl}}">
+                </div>
+            </li>
+
+            <li class="list-group-item media clearfix">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        手机登录背景图：
+                        <small class="clickable" accept="image/*" ngf-select ngf-accept="'image/*'" ngf-change="vm.upload($files, 'D')">上传</small>
+                    </h5>
+                </div>
+                <div class="upload-preview">
+                    <div class="uploading" ng-show="vm.uploading">
+                        <span class="uploading-indicator">
+                            <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                        </span>
+                    </div>
+                    <img ng-src="{{::admin.api}}{{vm.theme.maxMobileLoginBgUrl}}">
+                </div>
+            </li>
+
+            <li class="list-group-item media clearfix">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        iPhone 4s 登录背景图：
+                        <small class="clickable" accept="image/*" ngf-select ngf-accept="'image/*'" ngf-change="vm.upload($files, 'E')">上传</small>
+                    </h5>
+                </div>
+                <div class="upload-preview">
+                    <div class="uploading" ng-show="vm.uploading">
+                        <span class="uploading-indicator">
+                            <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                        </span>
+                    </div>
+                    <img ng-src="{{::admin.api}}{{vm.theme.maxMobileLoginBg4SUrl}}">
+                </div>
+            </li>
+
+            <li class="list-group-item media clearfix">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        手机载入背景图：
+                        <small class="clickable" accept="image/*" ngf-select ngf-accept="'image/*'" ngf-change="vm.upload($files, 'F')">上传</small>
+                    </h5>
+                </div>
+                <div class="upload-preview">
+                    <div class="uploading" ng-show="vm.uploading">
+                        <span class="uploading-indicator">
+                            <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                        </span>
+                    </div>
+                    <img ng-src="{{::admin.api}}{{vm.theme.maxMobileLoadingBgUrl}}">
+                </div>
+            </li>
+
+            <li class="list-group-item media clearfix">
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        iPhone 4s 载入背景图：
+                        <small class="clickable" accept="image/*" ngf-select ngf-accept="'image/*'" ngf-change="vm.upload($files, 'G')">上传</small>
+                    </h5>
+                </div>
+                <div class="upload-preview">
+                    <div class="uploading" ng-show="vm.uploading">
+                        <span class="uploading-indicator">
+                            <i class="fa fa-fw fa-circle-o-notch fa-spin"></i>上传中... {{vm.progress}}%
+                        </span>
+                    </div>
+                    <img ng-src="{{::admin.api}}{{vm.theme.maxMobileLoadingBg4SUrl}}">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

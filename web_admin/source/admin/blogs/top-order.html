@@ -1,0 +1,15 @@
+<div class="form-group">
+    <input class="form-control" ng-model="vm.blog.orderId" type="number" min="1"> 
+</div>
+<div class="btn-group btn-group-justified">
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger" ng-click="modalModel.confirm(undefined, true)">
+            <i class="fa fa-fw fa-check"></i>确定
+        </button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-link" ng-click="modalModel.confirm('reset', true)">
+            <i class="fa fa-fw fa-times"></i>取消
+        </button>
+    </div>
+</div>

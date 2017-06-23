@@ -1,0 +1,26 @@
+<vn-page-heading heading="信息广播" sub-heading="Broadcast Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>信息广播</h5></div>
+
+        <form class="panel-body" name="vm.form">
+            <div class="form-group" ng-class="{'has-error': vm.form.titleName.$touched && vm.form.titleName.$invalid}">
+                <label class="control-label" for="contentText">消息正文：</label>
+                <ng-messages for="vm.form.contentText.$error" multiple ng-show="vm.form.contentText.$touched">
+                    <ng-message class="text-danger" when="required">必须填写</ng-message>
+                </ng-messages>
+                <textarea class="form-control" id="contentText" name="contentText" ng-model="vm.broadcast.contentText" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="refId">分享ID：</label>
+                <input type="text" class="form-control" id="refId" name="refId" ng-model="vm.broadcast.refId">
+            </div>
+
+            <div class="form-group" ng-if="!admin.isReadOnly">
+                <button type="button" class="btn btn-primary" ng-click="vm.create()" ng-disabled="vm.form.$invalid">提交</button>
+            </div>
+        </form>
+    </div>
+</div>

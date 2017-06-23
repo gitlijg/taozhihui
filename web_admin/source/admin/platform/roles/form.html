@@ -1,0 +1,65 @@
+<div class="alert alert-danger" ng-if="vm.serverError">
+    <i class="fa fa-fw fa-exclamation-triangle"></i>
+    ({{::vm.serverError.code}}) {{::vm.serverError.message}}
+</div>
+
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <fieldset>
+        <legend class="text-muted">基本信息</legend>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.name.$dirty && vm.form.name.$valid,
+            'has-error': vm.form.name.$touched && vm.form.name.$invalid
+            }">
+            <label class="control-label" for="name">角色名称：</label>
+            <input class="form-control" id="name" name="name" ng-model="vm.role.name" required>
+        </div>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.roleDesc.$dirty && vm.form.roleDesc.$valid,
+            'has-error': vm.form.roleDesc.$touched && vm.form.roleDesc.$invalid
+            }">
+            <label class="control-label" for="roleDesc">角色描述：</label>
+            <input class="form-control" id="roleDesc" name="roleDesc" ng-model="vm.role.roleDesc" required>
+        </div>
+        <div class="form-group">
+            <label class="control-label">角色类型：</label>
+            <div class="radio-control">
+                <label class="radio-inline">
+                    <input type="radio" name="type" value="A" ng-model="vm.role.type"> 超级管理员
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" value="B" ng-model="vm.role.type"> 公司管理员
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" value="C" ng-model="vm.role.type"> 普通用户
+                </label>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="wide-labels">
+        <legend class="text-muted">权限选择</legend>
+        <div class="clearfix" ng-repeat="item in vm.permissions track by item.id">
+            <label class="control-label">{{::item.name}}：</label>
+            <div class="checkbox-control">
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="permissions-view-{{::$index}}" ng-model="vm.rawPermissions[item.permission + ':view']"> 查看
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="permissions-edit-{{::$index}}" ng-model="vm.rawPermissions[item.permission + ':edit']"> 编辑
+                </label>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group" ng-switch="vm.formMode">
+            <button class="btn btn-primary" type="button" ng-switch-when="create" ng-click="asideModel.confirm(undefined,true)" ng-disabled="vm.form.$invalid">
+                <i class="fa fa-fw fa-plus"></i>创建
+            </button>
+            <button class="btn btn-primary" type="button" ng-switch-when="update" ng-click="asideModel.confirm(undefined,true)" ng-disabled="vm.form.$invalid">
+                <i class="fa fa-fw fa-save"></i>更新
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel('something wrong',true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

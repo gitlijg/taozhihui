@@ -1,0 +1,31 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+
+    <div class="form-group">
+        <label class="control-label" for="tableName">赛程：</label>
+        <input class="form-control" id="tableName" name="tableName" ng-model="vm.football.title" required>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="win">胜率：</label>
+        <input type="number" min="1" class="form-control" id="win" name="win" ng-model="vm.football.win" required>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="draw">平率：</label>
+        <input type="number" min="1" class="form-control" id="draw" name="draw" ng-model="vm.football.draw" required>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="lose">赔率：</label>
+        <input type="number" min="1" class="form-control" id="lose" name="lose" ng-model="vm.football.lose" required>
+    </div>
+
+    <fieldset class="text-center">
+        <div class="form-group" >
+            <button class="btn btn-primary" type="button" ng-disabled="vm.form.$invalid" ng-click="asideModel.confirm({item:vm.football,type:vm.type})">
+                <i class="fa fa-fw fa-plus"></i>发布
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel(undefined, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

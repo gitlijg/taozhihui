@@ -1,0 +1,146 @@
+---
+yargs: &yargs
+  usage: "用法：$0 任务名 -a [API 前缀] -e [环境变量] -i [IE 渲染模式] -l [语言代码]"
+  argv:
+    api:
+      alias: "a"
+      demand: false
+      default: "/sloth2"
+      describe: "API 请求的 URL，默认值与反向代理的路径一致"
+    env:
+      alias: "e"
+      demand: false
+      default: "dev"
+      describe: "指定环境变量，默认值为 dev，发布时改为 prod"
+    ie:
+      alias: "i"
+      demand: false
+      default: "edge"
+      describe: "IE 浏览器默认的渲染模式，默认值为 edge"
+    lang:
+      alias: "l"
+      demand: false
+      default: "zh-CN"
+      describe: "HTML 加载时默认的语言代码，默认值为 zh-CN"
+
+path: &path
+  dev: 'public'
+  prod: 'dist'
+  assets:
+    - "node_modules/ng-file-upload/dist/FileAPI.min.js"
+    - "node_modules/ng-file-upload/dist/FileAPI.flash.swf"
+    - "public/assets/ckeditor/**"
+    - "public/assets/fonts/**"
+    - "public/assets/images/**"
+  vendor:
+    - "node_modules/lodash/index.js"
+
+    - "node_modules/moment/moment.js"
+    - "node_modules/moment/locale/zh-cn.js"
+
+    - "node_modules/highcharts-release/adapters/standalone-framework.src.js"
+    - "node_modules/highcharts-release/highcharts.src.js"
+    - "node_modules/highcharts-release/highcharts-more.js"
+    - "node_modules/highcharts-release/modules/data.js"
+    - "node_modules/highcharts-release/modules/exporting.js"
+
+    - "node_modules/angular/angular.js"
+    - "node_modules/angular-animate/angular-animate.js"
+    - "node_modules/angular-cookies/angular-cookies.js"
+    - "node_modules/angular-messages/angular-messages.js"
+    - "node_modules/angular-resource/angular-resource.js"
+    - "node_modules/angular-sanitize/angular-sanitize.js"
+    - "node_modules/angular-i18n/angular-locale_zh-cn.js"
+    - "node_modules/angular-storage/dist/angular-storage.js"
+    - "node_modules/ng-file-upload/dist/ng-file-upload-all.js"
+    - "node_modules/angulartics/src/angulartics.js"
+    - "node_modules/angulartics/src/angulartics-piwik.js"
+    - "node_modules/angulartics/src/angulartics-scroll.js"
+    - "node_modules/angular-ui-utils/modules/keypress/keypress.js"
+    - "node_modules/angular-ui-router/build/angular-ui-router.js"
+    - "node_modules/oclazyload/dist/ocLazyLoad.js"
+    - "node_modules/angular-growl/build/angular-growl.js"
+    - "node_modules/angular-strap/dist/angular-strap.js"
+    - "node_modules/angular-strap/dist/angular-strap.tpl.js"
+    - "node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.js"
+    - "node_modules/ui-select/dist/select.js"
+
+    # - "node_modules/ui-router-extras/release/modular/ct-ui-router-extras.core.js"
+    # - "node_modules/ui-router-extras/release/modular/ct-ui-router-extras.dsr.js"
+    # - "node_modules/ui-router-extras/release/modular/ct-ui-router-extras.sticky.js"
+    # - "node_modules/ui-router-extras/release/modular/ct-ui-router-extras.transition.js"
+  bundle:
+    - "source/**/*.js"
+  template:
+    - "source/**/*.html"
+  styles:
+    - "source/**/*.scss"
+
+minifyHTML: &minifyHTML
+  cdata: true
+  comments: true
+  conditionals: true
+  empty: true
+  loose: true
+  quotes: true
+
+wrapper: &wrapper
+  header: "(function(window, angular, undefined) {\n'use strict';\n"
+  footer: "\n}(this, angular))"
+
+template: &template
+  standalone: true
+  templateHeader: "angular.module('<%= module %>'<%= standalone %>).run(['$templateCache', function($templateCache) {\n"
+  templateFooter: "\n}]);"
+
+sass: &sass
+  includePaths:
+    - "source/style"
+    - "node_modules/susy/sass"
+    - "node_modules/bootstrap-sass/assets/stylesheets"
+    - "node_modules/font-awesome/scss"
+    - "node_modules/angular-motion/dist"
+    - "node_modules/bootstrap-additions/dist"
+    - "node_modules/ui-select/dist"
+  outputStyle: "expanded"
+
+autoprefixer: &autoprefixer
+  browsers:
+    - "> 5% in CN"
+    - "last 2 versions"
+
+replacement: &replacement
+  js:
+    - "assets/vendor.min.js"
+    - "assets/admin.min.js"
+    - "assets/template.min.js"
+
+browserSync: &browserSync
+  ui: false
+  files:
+    - "public/**"
+    - "!public/**/*.map"
+  server:
+    baseDir: "public"
+    middleware: []
+  host: "127.0.0.1"
+  port: 9000
+  open: true
+  notify: false
+  online: true
+
+proxyAPIURL: "http://vn-functional.chinacloudapp.cn/sloth2"
+#proxyAPIURL: "http://tzh.anji.com/tzh"
+proxyAPI: &proxyAPI
+  route: "/sloth2"
+  via: false
+  cookieRewrite: false
+  reserveHost: true
+
+proxyImageURL: "http://vn-functional.chinacloudapp.cn/sloth2/downloadFile"
+#proxyImageURL: "http://tzh.anji.com/tzh/downloadFile"
+proxyImage: &proxyImage
+  route: "/downloadFile"
+  via: false
+  cookieRewrite: false
+  reserveHost: true

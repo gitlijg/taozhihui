@@ -1,0 +1,70 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <fieldset>
+        <legend class="text-muted">群组信息</legend>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.teamName.$dirty && vm.form.teamName.$valid,
+            'has-error': vm.form.teamName.$touched && vm.form.teamName.$invalid
+            }">
+            <label class="control-label" for="teamName">群组名称：</label>
+            <input class="form-control" id="teamName" name="teamName" ng-model="vm.team.teamName" required>
+        </div>
+        <div class="form-group" ng-class="{
+            'has-success': vm.form.teamDesc.$dirty && vm.form.teamDesc.$valid,
+            'has-error': vm.form.teamDesc.$touched && vm.form.teamDesc.$invalid
+            }">
+            <label class="control-label" for="teamDesc">群组描述：</label>
+            <textarea class="form-control" id="teamDesc" name="teamDesc" ng-model="vm.team.teamDesc" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label class="control-label">自由加入：</label>
+            <div class="radio-control">
+                <label class="radio-inline">
+                    <input type="radio" name="isOpen" value="1" ng-model="vm.team.isOpen"> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="isOpen" value="0" ng-model="vm.team.isOpen"> 否
+                </label>
+                <span class="help-block">即是否允许非成员自由加入，否则只能由群主加人</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">自由发表：</label>
+            <div class="radio-control">
+                <label class="radio-inline">
+                    <input type="radio" name="isWrite" value="1" ng-model="vm.team.isWrite"> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="isWrite" value="0" ng-model="vm.team.isWrite"> 否
+                </label>
+                <span class="help-block">即是否允许非成员自由发表，否则只能由成员发表</span>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend class="text-muted">添加成员</legend>
+        <div class="form-group">
+            <!-- <input class="form-control" id="candidates" ng-model="vm.candidates" bs-typeahead bs-options="user.userInfo.userName as user.userInfo.userName for user in vm.searchUsers($viewValue)" placeholder="输入姓名或首字母搜索用户然后在列表点击添加"> -->
+            <ui-select multiple ng-model="vm.team.userList">
+                <ui-select-match ui-lock-choice="vm.lockTeamCreator($item)" placeholder="输入昵称搜索，候选结果右边显示真实姓名">
+                    {{$item.aliasName}}
+                </ui-select-match>
+                <ui-select-choices refresh="vm.searchUsers($select.search)" ui-disable-choice="vm.disableSelected(user, $select.selected)" repeat="user in vm.candidates track by $index">
+                    <strong>{{user.aliasName}}</strong><span class="pull-right">{{user.trueName}}</span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group" ng-switch="vm.formMode">
+            <button class="btn btn-primary" type="button" ng-switch-when="create" ng-click="asideModel.confirm({type: vm.formMode}, true)" ng-disabled="vm.form.$invalid">
+                <i class="fa fa-fw fa-plus"></i>创建
+            </button>
+            <button class="btn btn-primary" type="button" ng-switch-when="update" ng-click="asideModel.confirm({type: vm.formMode}, true)" ng-disabled="vm.form.$invalid">
+                <i class="fa fa-fw fa-save"></i>更新
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel({type: vm.formMode}, true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

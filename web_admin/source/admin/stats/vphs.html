@@ -1,0 +1,23 @@
+<vn-page-heading heading="数据统计" sub-heading="Data Statistics"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>
+                每小时浏览量
+                <small class="text-muted">{{::vm.queryParams.date}}</small>
+            </h5>
+            <div class="panel-search form-inline">
+                <div class="input-group">
+                    <input class="form-control" placeholder="选择日期" ng-model="vm.queryParams.date" bs-datepicker data-placement="bottom" data-max-date="today">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="vm.search()">查看</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" ng-if="!!vm.vphs">
+            <vn-chart series="vm.series" options="vm.options" export="true" credits="true"></vn-chart>
+        </div>
+    </section>
+</div>

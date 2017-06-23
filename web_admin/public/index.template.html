@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="<%= lang %>" ng-app="admin" ng-strict-di>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=<%= ie %>, chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="application-name" content="淘智汇后台管理">
+        <meta name="creator" content="上汽">
+        <meta name="publisher" content="上汽">
+        <meta name="api" content="<%= api %>">
+
+        <title></title>
+
+        <link href="assets/vendor.css" rel="stylesheet">
+        <link href="assets/admin.css" rel="stylesheet">
+    </head>
+    <body>
+        <ui-view></ui-view>
+        <script src="assets/ckeditor/ckeditor.js"></script> 
+        <!-- build:js -->
+        <script src="assets/vendor.js"></script>
+        <script src="assets/admin.js"></script>
+        <script src="assets/template.js"></script>
+        <!-- endbuild -->
+
+        <!-- piwik -->
+        <!--<script>-->
+            <!--var _paq = _paq || [];-->
+            <!--// _paq.push(['trackPageView']);-->
+            <!--_paq.push(['enableLinkTracking']);-->
+            <!--(function() {-->
+                <!--var u="//nightire.piwikpro.com/";-->
+                <!--_paq.push(['setTrackerUrl', u+'piwik.php']);-->
+                <!--_paq.push(['setSiteId', 1]);-->
+                <!--var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];-->
+                <!--g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);-->
+            <!--}());-->
+        <!--</script>-->
+        <!--<noscript><p><img src="//nightire.piwikpro.com/piwik.php?idsite=1"></p></noscript>-->
+    </body>
+</html>

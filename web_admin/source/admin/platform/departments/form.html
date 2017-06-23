@@ -1,0 +1,43 @@
+<div class="alert alert-danger" ng-if="vm.serverError">
+    <i class="fa fa-fw fa-exclamation-triangle"></i>
+    ({{::vm.serverError.code}}) {{::vm.serverError.message}}
+</div>
+
+<form name="vm.form" novalidate>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.departmentName.$dirty && vm.form.departmentName.$valid,
+        'has-error': vm.form.departmentName.$touched && vm.form.departmentName.$invalid
+        }">
+        <label for="departmentName">部门名称：</label>
+        <input class="form-control" id="departmentName" name="departmentName" ng-model="vm.department.departmentName" required>
+    </div>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.serialNo.$dirty && vm.form.serialNo.$valid,
+        'has-error': vm.form.serialNo.$touched && vm.form.serialNo.$invalid
+        }">
+        <label for="serialNo">部门编号：</label>
+        <input class="form-control" id="serialNo" name="serialNo" ng-model="vm.department.serialNo" >
+    </div>
+    <div class="form-group">
+        <label class="control-label" >负责人：</label>
+        <ui-select class="ui-select-inline" ng-model="vm.department.managerId">
+            <ui-select-match placeholder="输入名称搜索">
+                {{$select.selected.trueName}}
+            </ui-select-match>
+            <ui-select-choices refresh="vm.searchUser($select.search)" repeat="user.id as user in vm.departmentUsers">
+                <span>{{::user.trueName}}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="form-group" ng-switch="vm.mode">
+        <button class="btn btn-primary" type="button" ng-switch-when="create" ng-click="vm.create()" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-plus"></i>创建
+        </button>
+        <button class="btn btn-primary" type="button" ng-switch-when="update" ng-click="vm.update()" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-save"></i>更新
+        </button>
+        <button class="btn btn-link" type="button" ng-click="vm.cancel()">
+            <i class="fa fa-fw fa-times"></i>取消
+        </button>
+    </div>
+</form>

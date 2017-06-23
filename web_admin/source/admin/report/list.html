@@ -1,0 +1,59 @@
+<vn-page-heading heading="举报管理" ></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>举报列表</h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <select class="form-control" ng-model="vm.queryParams.type" ng-change="vm.search()">
+                        <option value="">举报数据类型</option>
+                        <option value="B">分享</option>
+                        <option value="Q">问题</option>
+                        <option value="A">回答</option>
+                        <option value="S">消息</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-2 clickable" >类型</th>
+                    <th class="grid-4 clickable" >标题</th>
+                    <th class="grid-2 clickable" >举报次数</th>
+                    <th class="grid-3 clickable" >被举报人昵称</th>
+                    <th class="grid-3 clickable" >被举报帖子日期</th>
+                    <th class="grid-2">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="report in vm.reports ">
+
+                    <td class="grid-2" ng-bind="::report.type" ></td>
+                    <td class="grid-4" ng-bind="::report.titleName"></td>
+                    <td class="grid-2" ng-bind="::report.reportNum"></td>
+                    <td class="grid-3" ng-bind="::report.blogUserName"></td>
+                    <td class="grid-3" ng-bind="::report.createDate"></td>
+
+                    <td class="grid-2">
+                        <a ui-sref="reports.show({reportRefId: report.id,reportRefType: vm.queryParams.type})" >详情</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

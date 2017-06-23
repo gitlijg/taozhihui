@@ -1,0 +1,51 @@
+<vn-page-heading heading="系统管理" sub-heading="Streams Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>在线用户</h5>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+                <tr>
+                    <th class="grid-3 clickable">
+                        会话ID<i class="text-info fa fa-fw"></i>
+                    </th>
+                    <th class="grid-3 clickable">
+                        登录名<i class="text-info fa fa-fw"></i>
+                    </th>
+                    <th class="grid-2 clickable">
+                        昵称<i class="text-info fa fa-fw"></i>
+                    </th>
+                    <th class="grid-2 clickable">
+                        主机地址<i class="text-info fa fa-fw"></i>
+                    </th>
+                    <th class="grid-2 clickable">
+                        登录时间<i class="text-info fa fa-fw"></i>
+                    </th>
+                    <th class="grid-3">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="stream in vm.list">
+                    <td class="grid-3" ng-bind="::stream.id"></td>
+                    <td class="grid-3" ng-bind="::stream.loginName | limitTo : 26" bs-tooltip data-title="{{::stream.loginName}}" data-placement="top"></td>
+                    <td class="grid-2" ng-bind="::stream.trurName"></td>
+                    <td class="grid-2" ng-bind="::stream.host"></td>
+                    <td class="grid-2" ng-bind="::stream.loginTime | readable : 'date'"></td>
+
+                    <td class="grid-3" ng-bind="::stream.lastAccessTime">
+                        <!--<a ng-click="vm.delete(stream)">删除</a>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

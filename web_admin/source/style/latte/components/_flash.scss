@@ -1,0 +1,32 @@
+///
+@mixin flash(
+    $type:          major,
+    $inverse:       false,
+    $border-radius: 2px,
+    $with-close:    true
+) {
+    @content;
+
+    position: relative;
+    padding:  0.625em 1em;
+
+    @if $inverse {
+        color:            color($type, tint);
+        background-color: color($type, base);
+        border-color:     transparent;
+    }
+    @else {
+        color:            color($type, base);
+        background-color: color($type, tint);
+        border-color:     color($type, line);
+    }
+
+    border-width:  1px;
+    border-style:  solid;
+    border-radius: $border-radius;
+
+    @if $with-close { @extend %with-close; }
+    @else { .close { display: none; } }
+
+    h1, h2, h3, h4, h5, h6, p { margin-bottom: 0; }
+}

@@ -1,0 +1,85 @@
+<vn-page-heading heading="问答管理" sub-heading="Questions Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>问答列表</h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <ui-select ng-model="vm.queryParams.name">
+                        <ui-select-match placeholder="按作者搜索记录">
+                            {{$select.selected.aliasName}}
+                        </ui-select-match>
+                        <ui-select-choices refresh="vm.getUsers($select.search)" repeat="user.aliasName as user in vm.users">
+                            <span>{{::user.aliasName}}</span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="input-group">
+                    <input class="form-control" ng-model="vm.queryParams.query" ui-keydown="{'enter': 'vm.search()'}" placeholder="输入关键字搜索问答">
+                </div>
+                <div class="input-group btn-group">
+                    <button type="button" class="btn btn-primary" ng-click="vm.search()">
+                        <i class="fa fa-fw fa-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-1 clickable" ng-click="vm.sorter.reorder('status')">
+                        状态<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'status'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-5 clickable" ng-click="vm.sorter.reorder('titleName')">
+                        标题<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'titleName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('createName')">
+                        作者<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createName'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('streamComefrom')">
+                        来源<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'streamComefrom'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('createDate')">
+                        创建日期<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'createDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2 clickable" ng-click="vm.sorter.reorder('updateDate')">
+                        更新日期<i class="text-info fa fa-fw" ng-show="vm.sorter.order === 'updateDate'" ng-class="{'fa-sort-down': vm.sorter.reverse, 'fa-sort-up': !vm.sorter.reverse}"></i>
+                    </th>
+                    <th class="grid-2">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="question in vm.questions | orderBy : vm.sorter.order : vm.sorter.reverse track by question.id">
+                    <td class="grid-1" ng-bind="::question.status"></td>
+                    <td class="grid-5" ng-bind="::question.titleName | limitTo : 26" bs-tooltip data-title="{{::question.titleName}}" data-placement="top"></td>
+                    <td class="grid-2" ng-bind="::question.createName"></td>
+                    <td class="grid-2" ng-bind="::question.questionComefrom | readable : 'origin'"></td>
+                    <td class="grid-2" ng-bind="::question.createDate | readable : 'date'"></td>
+                    <td class="grid-2" ng-bind="::question.updateDate | readable : 'date'"></td>
+
+                    <td class="grid-2">
+                        <div ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.top(question)">置顶</a>
+                            <a ng-click="vm.delete(question)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer text-center" ng-if="vm.isLoaded && !vm.isEmpty">
+            <pagination class="pagination-sm" ng-model="vm.queryParams.page" ng-change="vm.search()" total-items="vm.totalItems" items-per-page="vm.queryParams.size"></pagination>
+            <small class="pagination-meta text-muted">
+                {{vm.queryParams.page}}／{{vm.totalPages}} 页－{{vm.totalItems}} 项
+            </small>
+        </div>
+    </section>
+</div>

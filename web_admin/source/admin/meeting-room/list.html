@@ -1,0 +1,72 @@
+<vn-page-heading heading="会议室管理" sub-heading="Meeting Rooms Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-aside">
+        <div class="panel-heading">
+            <h5>地点</h5>
+            <div class="panel-search" ng-if="!admin.isReadOnly">
+                <button type="button" class="btn btn-default" ng-click="vm.saveLocation()">
+                    <i class="fa fa-fw fa-plus"></i>
+                    添加地点
+                </button>
+            </div>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item clickable" ng-click="vm.search(location.id)"
+                ng-repeat="location in vm.locations track by location.id"
+                ng-class="{'active': vm.queryParams.id === location.id}">
+                <strong>{{::location.place}}</strong>
+                <span>（{{::location.placeDesc}}）</span>
+                <a class="pull-right" ng-click="vm.saveLocation(location,$event)" ng-if="!admin.isReadOnly">编辑</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="panel panel-default panel-main">
+        <div class="panel-heading">
+            <h5>会议室</h5>
+            <div class="panel-search form-inline" ng-if="!admin.isReadOnly">
+                <input class="form-control" style="width: 140px;" placeholder="导出开始日期" ng-model="vm.bookingBeginDate" bs-datepicker data-placement="bottom" >
+                <input class="form-control" style="width: 140px;" placeholder="导出结束日期" ng-model="vm.bookingEndDate" bs-datepicker data-placement="bottom" >
+                <button class="btn btn-primary" ng-click="vm.exportBooking()" ng-disabled="!vm.bookingBeginDate || !vm.queryParams.id">导出预定信息</button>
+                <button type="button" class="btn btn-default" ng-click="vm.saveRoom()">
+                    <i class="fa fa-fw fa-plus"></i>
+                    添加会议室
+                </button>
+            </div>
+        </div>
+        <table class="am-fade-and-scale table table-hover">
+            <thead>
+                <tr>
+                    <th class="grid-4">会议室名称</th>
+                    <th class="grid-7">会议室描述</th>
+                    <th class="grid-2">是否可用</th>
+                    <th class="grid-3">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>请选择地点
+                    </td>
+                </tr>
+
+                <tr ng-repeat="room in vm.rooms track by room.id">
+                    <th class="grid-4" ng-bind="::room.room"></th>
+                    <th class="grid-7" ng-bind="::room.roomDesc"></th>
+                    <th class="grid-2" ng-if="room.disabled === 0">是</th>
+                    <th class="grid-2" ng-if="room.disabled !== 0">否</th>
+                    <th class="grid-3">
+                        <div ng-if="!admin.isReadOnly">
+                            <a ng-click="vm.saveRoom(room)">编辑</a>
+                            <a ui-sref="meetingRoom.bookings({id: room.id})">
+                                管理预定
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="alert alert-danger" ng-if="vm.serverError">
+    <i class="fa fa-fw fa-exclamation-triangle"></i>
+    ({{::vm.serverError.code}}) {{::vm.serverError.message}}
+</div>
+
+<form name="vm.form" novalidate>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.fullName.$dirty && vm.form.fullName.$valid,
+        'has-error': vm.form.fullName.$touched && vm.form.fullName.$invalid
+        }">
+        <label for="fullName">公司全称：</label>
+        <input class="form-control" id="fullName" name="fullName" ng-model="vm.organization.fullName" required>
+    </div>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.shortName.$dirty && vm.form.shortName.$valid,
+        'has-error': vm.form.shortName.$touched && vm.form.shortName.$invalid
+        }">
+        <label for="shortName">公司简称：</label>
+        <input class="form-control" id="shortName" name="shortName" ng-model="vm.organization.shortName" required>
+    </div>
+    <div class="form-group" ng-class="{
+        'has-success': vm.form.domain.$dirty && vm.form.domain.$valid,
+        'has-error': vm.form.domain.$touched && vm.form.domain.$invalid
+        }">
+        <label for="vm.organization.domain">公司域名：</label>
+        <input class="form-control" id="domain" name="domain" ng-model="vm.organization.domain" required>
+    </div>
+    <div class="form-group" ng-switch="vm.mode">
+        <button class="btn btn-primary" type="button" ng-switch-when="create" ng-click="vm.create()" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-plus"></i>创建
+        </button>
+        <button class="btn btn-primary" type="button" ng-switch-when="update" ng-click="vm.update()" ng-disabled="vm.form.$invalid">
+            <i class="fa fa-fw fa-save"></i>更新
+        </button>
+        <button class="btn btn-link" type="button" ng-click="vm.cancel()">
+            <i class="fa fa-fw fa-times"></i>取消
+        </button>
+    </div>
+</form>

@@ -1,0 +1,57 @@
+<form class="form-condensed" name="vm.form" novalidate vn-auto-height listen-on="aside.show" parent>
+    <fieldset>
+        <legend>会议信息</legend>
+        <div class="form-group" >
+            <label class="control-label" >会议名称：</label>
+            <input class="form-control" type="text" ng-model="vm.meetingDetail.meetingName" required>
+        </div>
+        <div class="form-group" >
+            <label class="control-label" >开始日期：</label>
+            <input class="form-control" type="text" ng-model="vm.meetingDetail.startDate" required bs-datepicker >
+        </div>
+        <div class="form-group" >
+            <label class="control-label" >开始时间：</label>
+            <input class="form-control" type="text" ng-model="vm.meetingDetail.startTime" required bs-timepicker >
+        </div>
+        <div class="form-group" >
+            <label class="control-label" >地点：</label>
+            <input class="form-control" type="text" ng-model="vm.meetingDetail.meetingPlace" required>
+        </div>
+        <div class="form-group">
+            <label class="control-label" >报名上限：</label>
+            <input class="form-control" type="number" ng-model="vm.meetingDetail.memberTotal" required>
+        </div>
+        <div class="form-group" ng-if="!vm.meetingDetail.id">
+            <label class="control-label" >会议海报：</label>
+            <div class="btn btn-default form-control" id="meetingImage" accept="image/*" ngf-accept="'image/*'" ngf-select ngf-change="vm.uploadImage($files, $index)" ng-model="vm.optionImages" ngf-drop ngf-drag-over-class="{accept:'drop-accept', reject:'drop-reject', delay:100}" bs-tooltip data-title="点击选择或将文件拖拽至此" data-placement="left">
+                <span class="text-muted"><i class="fa fa-fw fa-cloud-upload"></i>上传会议海报</span>
+            </div>
+            <input class="form-control" type="hidden" ng-model="vm.meetingDetail.imageId" required>
+        </div>
+        <div class="form-group text-center" ng-if="vm.meetingDetail.imageUri">
+            <img style="max-width: 80%;max-height: 100px;"  ng-src="{{api + vm.meetingDetail.imageUri}}" alt=""/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>额外选项</legend>
+        <div class="form-inline" ng-repeat="option in vm.meetingDetail.fieldList" style="margin-bottom: 10px;">
+            <div class="form-group">
+                <input class="form-control" style="width: 100%;margin-left: 0px" ng-model="option.fieldName" ng-disabled="vm.meetingDetail.id" placeholder="选项名称" type="text"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" style="width: 100%;margin-left: 0px" ng-model="option.maxLength" ng-disabled="vm.meetingDetail.id" placeholder="选项内容最大长度" type="number"/>
+            </div>
+            <button type="button" href="" class="btn btn-default" ng-if="$last && !vm.meetingDetail.id" ng-disabled="!option.fieldName" ng-click="vm.addMeetingField()">添加</button>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" ng-click="asideModel.confirm(undefined, true)" ng-disabled="vm.form.$invalid">
+                <i class="fa fa-fw fa-plus"></i>提交
+            </button>
+            <button class="btn btn-link" type="button" ng-click="asideModel.cancel('', true)">
+                <i class="fa fa-fw fa-times"></i>取消
+            </button>
+        </div>
+    </fieldset>
+</form>

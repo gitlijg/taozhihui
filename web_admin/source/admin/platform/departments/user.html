@@ -1,0 +1,68 @@
+<vn-page-heading heading="部门管理" sub-heading="Department Management"></vn-page-heading>
+
+<div class="page-row">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h5>
+                <vn-link-back target="departments" option="{reload: false}"></vn-link-back>
+                {{::vm.department.departmentName}}（成员总数：{{::vm.users.content.length}}人）
+                <i class="fa fa-fw fa-spinner fa-pulse" ng-hide="vm.isLoaded"></i>
+            </h5>
+
+            <div class="panel-search form-inline" ng-if="vm.isLoaded">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+                    <input class="form-control" ng-model="vm.query" placeholder="按姓名或拼音搜索成员">
+                </div>
+                <div class="input-group" ng-if="::admin.isSubAdmin">
+                    <button type="button" class="btn btn-primary" ng-click="vm.showIdleUsers()">
+                        <i class="fa fa-fw fa-plus"></i>添加成员
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="am-fade-and-scale table table-hover" ng-if="vm.isLoaded">
+            <thead>
+                <tr>
+                    <th class="grid-1">头像</th>
+                    <th class="grid-3 clickable" ng-click="vm.sort('trueName')">
+                        姓名<i class="fa fa-fw" ng-show="vm.order === 'trueName'" ng-class="{'fa-sort-down': vm.reverse, 'fa-sort-up': !vm.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sort('aliasName')">
+                        昵称<i class="fa fa-fw" ng-show="vm.order === 'aliasName'" ng-class="{'fa-sort-down': vm.reverse, 'fa-sort-up': !vm.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sort('title')">
+                        职位<i class="fa fa-fw" ng-show="vm.order === 'title'" ng-class="{'fa-sort-down': vm.reverse, 'fa-sort-up': !vm.reverse}"></i>
+                    </th>
+                    <th class="grid-3 clickable" ng-click="vm.sort('phoneNumber')">
+                        电话<i class="fa fa-fw" ng-show="vm.order === 'phoneNumber'" ng-class="{'fa-sort-down': vm.reverse, 'fa-sort-up': !vm.reverse}"></i>
+                    </th>
+                    <th class="grid-2">操作</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-muted">
+                <tr ng-if="vm.isEmpty">
+                    <td class="alert alert-warning text-center">
+                        <i class="fa fa-fw fa-exclamation-triangle"></i>没有任何数据
+                    </td>
+                </tr>
+                <tr ng-repeat="user in vm.users.content | orderBy : vm.order : vm.reverse  track by user.id">
+                    <td class="grid-1">
+                        <img width="20px" height="20px" ng-src="{{::user.imageUrl | replace : '-min\.' : '.'}}">
+                    </td>
+
+                    <td class="grid-3" ng-bind="::user.trueName | readable"></td>
+                    <td class="grid-3" ng-bind="::user.aliasName | readable"></td>
+                    <td class="grid-3" ng-bind="::user.title | readable"></td>
+                    <td class="grid-3" ng-bind="::user.phoneNumber | readable"></td>
+
+                    <td class="grid-2">
+                        <a ng-click="vm.confirm(user)" ng-disabled="::admin.isAdmin">移除成员</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

@@ -1,0 +1,27 @@
+///
+@function color($color-group, $color-name: base, $colors: $colors) {
+    @if map-has-key($colors, $color-group) {
+        $group: map-get($colors, $color-group);
+    } @else {
+        @warn "必须提供一个有效的配色组名称，当前为：#{$color-group}";
+    }
+
+    @if map-has-key($group, $color-name) {
+        $color: map-get($group, $color-name);
+    } @else {
+        @warn "必须提供一个有效的配色值名称，当前为：#{$color-name}";
+    }
+
+    @return $color;
+}
+
+///
+@function family($family-name, $font-group: $fonts) {
+    @if map-has-key($font-group, $family-name) {
+        $family: map-get($font-group, $family-name);
+    } @else {
+        @warn "必须提供一个有效的字体族名称，当前为：#{$family-name}";
+    }
+
+    @return $family;
+}

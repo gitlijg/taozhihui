@@ -1,0 +1,51 @@
+<vn-page-heading heading="合理化建议管理" sub-heading="Rational Proposal Management"></vn-page-heading>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>总部角色</h5></div>
+
+        <div class="panel-body">
+            <div class="form-group grid-8" ng-repeat="role in vm.userRoles[0] track by role.id">
+                <label>{{role.suggestRoleName}}：</label>
+                <div class="input-group">
+                    <ui-select ng-model="role.userId">
+                        <ui-select-match placeholder="姓名或拼音首字母">{{$select.selected.value}}</ui-select-match>
+                        <ui-select-choices refresh="vm.getUsers($select.search, role)" repeat="user.id as user in vm.userLists[role.id] track by user.id">
+                            <small ng-bind="user.label"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="vm.update(role)" ng-if="!admin.isReadOnly">保存</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-row">
+    <div class="panel panel-default panel-narrow">
+        <div class="panel-heading"><h5>分部角色</h5></div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <strong class="form-control-static grid-8">分部名称：</strong>
+                <strong class="form-control-static grid-8">初评、验证、评奖人：</strong>
+            </div>
+            <div class="form-group" ng-repeat="department in vm.departments track by department.id">
+                <p class="form-control-static text-muted grid-8">{{::department.departmentName}}</p>
+                <div class="input-group" ng-init="role = vm.matchRole(department.id)">
+                    <ui-select ng-model="role.userId">
+                        <ui-select-match placeholder="姓名或拼音首字母">{{$select.selected.value}}</ui-select-match>
+                        <ui-select-choices refresh="vm.getUsers($select.search, role)" repeat="user.id as user in vm.userLists[role.id] track by user.id">
+                            <small ng-bind="user.label"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="vm.update(role)" ng-if="!admin.isReadOnly">保存</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
